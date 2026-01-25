@@ -12,10 +12,10 @@
     
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script type="text/javascript">
-        // EmailJS 설정값 정의 (환경 변수처럼 관리)
-        const EMAILJS_PUBLIC_KEY = "PLeho0_7nJNINKZ9p";
+        // EmailJS 설정 정보 (환경변수처럼 관리)
+        const EMAILJS_PUBLIC_KEY = "MeDdSDT130KNnGU5J";
         const EMAILJS_SERVICE_ID = "service_23hd17n";
-        const EMAILJS_TEMPLATE_ID = "template_z8f0ejj";
+        const EMAILJS_TEMPLATE_ID = "template_1h4x2yq";
 
         (function() {
             emailjs.init(EMAILJS_PUBLIC_KEY); 
@@ -261,6 +261,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
     <script>
+        // 1. 번역 및 기존 데이터 유지
         const translations = {
             ko: {
                 nav_ceo: "CEO인사말", nav_about: "사업영역", nav_calc: "수익계산기", nav_tech: "기술력", nav_contact: "문의하기",
@@ -303,7 +304,7 @@
             zh: {
                 nav_ceo: "CEO致辞", nav_about: "业务领域", nav_calc: "收益计算器", nav_tech: "技术力量", nav_contact: "联系我们",
                 hero_title: "以技术开创未来，绿色农业的新标准<br><span class='text-green-400'>Bukwang Solar</span> 设计的美丽共存",
-                hero_subtitle: "为了可持续未来的最佳融合式智能农场农业太阳능",
+                hero_subtitle: "为了可持续未来的最佳融合式智能农场农业太阳能",
                 btn_calc: "计算预期收益", btn_contact: "免费咨询申请",
                 ceo_title: "CEO 寄语", ceo_greeting: "您好！",
                 ceo_text1: "我们梦想着农业、能源与环境共存的可持续未来。",
@@ -336,17 +337,17 @@
                 calc_res_label: "Ожидаемый доход в месяц", calc_note: "* Доход зависит от инсоляции.",
                 tech_title: "Проверенные технологии", tech_1: "Запатентованное строительство", tech_2: "Спец. конструкции", tech_3: "RTU Мониторинг",
                 contact_title: "Заявка на консультацию", form_name: "Имя", form_tel: "Телефон", form_msg: "Сообщение", btn_submit: "Отправить",
-                footer_addr: "Штаб-квартира: 30, Boksunjung-ro, Seo-gu, Daejeon, Korea", gallery_agri: "Агровольтаика - Галерея", gallery_daily: "Солнце в быту - Галерея"
+                footer_addr: "Штаб-квартира: 30, Boksunjung-ro, Seo-gu, Daejeon, Korea", gallery_agri: "Агровольтаика - Галерея", gallery_daily: "Солнце в быту - Га레рея"
             },
             ja: {
-                nav_ceo: "代表挨拶", nav_about: "事業領域", nav_calc: "収익計算", nav_tech: "技術力", nav_contact: "お問い合わせ",
-                hero_title: "技術で築く未来、環境に優しい農業の新基準<br><span class='text-green-400'>Bukwang Solar</span>が描く美しい共存",
+                nav_ceo: "代表挨拶", nav_about: "사업영역", nav_calc: "収益計算", nav_tech: "技術力", nav_contact: "お問い合わせ",
+                hero_title: "技術で築く未来, 環境に優しい農業の新基準<br><span class='text-green-400'>Bukwang Solar</span>が描く美しい共存",
                 hero_subtitle: "持続可能な未来のための最適融合型スマートファーム営農型太陽光",
                 btn_calc: "予想収益を計算する", btn_contact: "無料相談に申し込む",
                 ceo_title: "CEO MESSAGE", ceo_greeting: "ご挨拶",
                 ceo_text1: "私たちは農業、エネルギー、環境が共存する持続可能な未来を夢見ています。",
-                ceo_text2: "単なる食品生産を超え、営農型太陽光によるエネルギー革新をリードします。",
-                ceo_text3: "革新的なスマートファームソリューションで農家の収益性を高めます。",
+                ceo_text2: "単なる食品生産を超え, 営農型太陽光によるエネルギー革新をリードします。",
+                ceo_text3: "革新적인 스마트팜 솔루션으로 농가의 수익성을 높입니다.",
                 biz_1_title: "営農型太陽光", biz_1_text: "農地と太陽光の調和のとれた結合",
                 biz_2_title: "生活太陽光", biz_2_text: "日常に溶け込むクリーンエネルギー",
                 biz_3_title: "スマートファーム EMS", biz_3_text: "遠隔制御およびリアルタイムエネルギー管理",
@@ -359,6 +360,7 @@
             }
         };
 
+        // 2. 헬퍼 함수들 (Shuffle, Modal 등)
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -410,27 +412,18 @@
 
             for(let i=1; i<=count; i++) indices.push(i);
             shuffleArray(indices);
-
             countLabel.innerText = `Total: ${count}`;
 
             indices.forEach(i => {
                 const imgContainer = document.createElement('div');
                 imgContainer.className = "gallery-item group relative overflow-hidden rounded-xl bg-gray-100 shadow-sm hover:shadow-md transition-all cursor-pointer border";
-                
                 const img = document.createElement('img');
                 img.src = `${prefix}${i}.jpg`;
                 img.className = "w-full h-full object-cover transition duration-500 group-hover:scale-110";
                 img.loading = "lazy";
-                
                 img.onerror = function() { 
-                    this.parentElement.innerHTML = `
-                        <div class="flex flex-col items-center justify-center h-full text-gray-300">
-                            <i class="fas fa-image text-2xl mb-1"></i>
-                            <span class="text-[10px] font-mono">${prefix}${i}.jpg</span>
-                        </div>
-                    `; 
+                    this.parentElement.innerHTML = `<div class="flex flex-col items-center justify-center h-full text-gray-300"><i class="fas fa-image text-2xl mb-1"></i><span class="text-[10px] font-mono">${prefix}${i}.jpg</span></div>`; 
                 };
-
                 imgContainer.appendChild(img);
                 grid.appendChild(imgContainer);
             });
@@ -490,25 +483,27 @@
             breakpoints: { 640: { slidesPerView: 2 }, 1024: { slidesPerView: 3 } }
         });
 
-        // 폼 제출 핸들러 수정
+        // 3. EmailJS 제출 로직 수정 (요청하신 환경변수 적용)
         document.getElementById('contact-form').addEventListener('submit', function(e) {
             e.preventDefault();
             const btn = this.querySelector('button');
             const originalText = btn.innerText;
             btn.innerText = "Sending...";
-            
-            // 정의된 환경변수 상수를 사용하여 전송
+            btn.disabled = true;
+
+            // 상단에 정의된 EMAILJS_SERVICE_ID와 EMAILJS_TEMPLATE_ID 사용
             emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, this)
                 .then(() => { 
-                    alert('상담 신청이 완료되었습니다!'); 
+                    alert('성공적으로 접수되었습니다. 곧 연락드리겠습니다!'); 
                     this.reset(); 
                 })
                 .catch((err) => {
                     console.error('EmailJS Error:', err);
-                    alert('오류가 발생했습니다: ' + (err.text || JSON.stringify(err)));
+                    alert('발송 실패: ' + (err.text || '알 수 없는 오류가 발생했습니다.')); 
                 })
                 .finally(() => { 
                     btn.innerText = originalText; 
+                    btn.disabled = false;
                 });
         });
     </script>
