@@ -12,7 +12,6 @@
     
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script type="text/javascript">
-        // EmailJS 설정 정보 (환경변수처럼 관리)
         const EMAILJS_PUBLIC_KEY = "MeDdSDT130KNnGU5J";
         const EMAILJS_SERVICE_ID = "service_23hd17n";
         const EMAILJS_TEMPLATE_ID = "template_1h4x2yq";
@@ -231,10 +230,17 @@
                             </select>
                         </div>
                     </div>
-                    <div class="bg-primary-blue rounded-2xl p-8 text-white flex flex-col justify-center items-center">
-                        <span class="opacity-80 text-sm mb-2" data-i18n="calc_res_label">Estimated Monthly Revenue</span>
-                        <div class="text-4xl font-black"><span id="res-symbol">₩</span> <span id="result">0</span></div>
-                        <p class="mt-4 text-xs opacity-60 text-center" data-i18n="calc_note">* 실제 수익은 일사량에 따라 다를 수 있습니다.</p>
+                    <div class="bg-primary-blue rounded-2xl p-8 text-white flex flex-col justify-center space-y-8">
+                        <div class="text-center">
+                            <span class="opacity-80 text-sm mb-2 block" data-i18n="calc_res_monthly">예상 월 수익</span>
+                            <div class="text-3xl font-black"><span class="res-symbol">₩</span> <span id="result-monthly">0</span></div>
+                        </div>
+                        <div class="h-px bg-white/20 w-full"></div>
+                        <div class="text-center">
+                            <span class="opacity-80 text-sm mb-2 block" data-i18n="calc_res_yearly">예상 연 수익</span>
+                            <div class="text-4xl font-black text-green-400"><span class="res-symbol">₩</span> <span id="result-yearly">0</span></div>
+                        </div>
+                        <p class="text-xs opacity-60 text-center" data-i18n="calc_note">* 실제 수익은 일사량에 따라 다를 수 있습니다.</p>
                     </div>
                 </div>
             </div>
@@ -261,7 +267,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
     <script>
-        // 1. 번역 및 기존 데이터 유지
         const translations = {
             ko: {
                 nav_ceo: "CEO인사말", nav_about: "사업영역", nav_calc: "수익계산기", nav_tech: "기술력", nav_contact: "문의하기",
@@ -277,7 +282,7 @@
                 biz_3_title: "스마트팜 EMS", biz_3_text: "원격 제어 및 실시간 에너지 관리",
                 view_gallery: "갤러리 보기", view_more: "자세히 보기 →",
                 calc_title: "수익 시뮬레이터", calc_label_area: "설치 면적", calc_label_capacity: "발전 용량 (kW)", calc_label_currency: "통화",
-                calc_res_label: "예상 월 수익", calc_note: "* 실제 수익은 일사량에 따라 다를 수 있습니다.",
+                calc_res_monthly: "예상 월 수익", calc_res_yearly: "예상 연 수익", calc_note: "* 실제 수익은 일사량에 따라 다를 수 있습니다.",
                 tech_title: "검증된 기술력", tech_1: "시공 특허 보유", tech_2: "영농형 전용 구조물", tech_3: "RTU 모니터링 시스템",
                 contact_title: "무료 상담 신청", form_name: "성함", form_tel: "연락처", form_msg: "문의사항", btn_submit: "상담 신청하기",
                 footer_addr: "본사: 대전광역시 서구 복수중로 30", gallery_agri: "영농형 시공 갤러리", gallery_daily: "생활속 시공 갤러리"
@@ -296,7 +301,7 @@
                 biz_3_title: "Smart Farm EMS", biz_3_text: "Remote control & Energy management",
                 view_gallery: "Gallery", view_more: "View More →",
                 calc_title: "Revenue Simulator", calc_label_area: "Installation Area", calc_label_capacity: "Capacity (kW)", calc_label_currency: "Currency",
-                calc_res_label: "Estimated Monthly Revenue", calc_note: "* Actual revenue may vary.",
+                calc_res_monthly: "Est. Monthly Revenue", calc_res_yearly: "Est. Yearly Revenue", calc_note: "* Actual revenue may vary.",
                 tech_title: "Proven Tech", tech_1: "Patented Construction", tech_2: "Specialized Structures", tech_3: "RTU Monitoring",
                 contact_title: "Get a Free Quote", form_name: "Name", form_tel: "Phone", form_msg: "Message", btn_submit: "Submit Now",
                 footer_addr: "HQ: 30, Boksunjung-ro, Seo-gu, Daejeon, Korea", gallery_agri: "Agrivoltaic Gallery", gallery_daily: "Daily Solar Gallery"
@@ -315,7 +320,7 @@
                 biz_3_title: "智能农场 EMS", biz_3_text: "远程控制与实时能源管理",
                 view_gallery: "查看画廊", view_more: "查看详情 →",
                 calc_title: "收益模拟器", calc_label_area: "安装面积", calc_label_capacity: "发电容量 (kW)", calc_label_currency: "货币",
-                calc_res_label: "预计月收益", calc_note: "* 实际收益可能因日照量而异。",
+                calc_res_monthly: "预计月收益", calc_res_yearly: "预计年收益", calc_note: "* 实际收益可能因日照量而异。",
                 tech_title: "经过验证的技术", tech_1: "持有施工专利", tech_2: "农业专用结构", tech_3: "RTU 监控系统",
                 contact_title: "免费咨询申请", form_name: "姓名", form_tel: "联系方式", form_msg: "咨询内容", btn_submit: "提交咨询",
                 footer_addr: "总部: 大田广域市西区复水路 30", gallery_agri: "农业太阳能施工画廊", gallery_daily: "生活太阳能施工画廊"
@@ -334,33 +339,75 @@
                 biz_3_title: "Smart Farm EMS", biz_3_text: "Дистанционное управление энергией",
                 view_gallery: "Галерея", view_more: "Подробнее →",
                 calc_title: "Симулятор дохода", calc_label_area: "Площадь", calc_label_capacity: "Мощность (кВт)", calc_label_currency: "Валюта",
-                calc_res_label: "Ожидаемый доход в месяц", calc_note: "* Доход зависит от инсоляции.",
+                calc_res_monthly: "Доход в месяц", calc_res_yearly: "Доход в год", calc_note: "* Доход зависит от инсоляции.",
                 tech_title: "Проверенные технологии", tech_1: "Запатентованное строительство", tech_2: "Спец. конструкции", tech_3: "RTU Мониторинг",
                 contact_title: "Заявка на консультацию", form_name: "Имя", form_tel: "Телефон", form_msg: "Сообщение", btn_submit: "Отправить",
-                footer_addr: "Штаб-квартира: 30, Boksunjung-ro, Seo-gu, Daejeon, Korea", gallery_agri: "Агровольтаика - Галерея", gallery_daily: "Солнце в быту - Га레рея"
+                footer_addr: "Штаб-квартира: 30, Boksunjung-ro, Seo-gu, Daejeon, Korea", gallery_agri: "Агровольтаика - Галерея", gallery_daily: "Солнце в быту - Галерея"
             },
             ja: {
-                nav_ceo: "代表挨拶", nav_about: "사업영역", nav_calc: "収益計算", nav_tech: "技術力", nav_contact: "お問い合わせ",
+                nav_ceo: "代表挨拶", nav_about: "事業領域", nav_calc: "収益計算", nav_tech: "技術力", nav_contact: "お問い合わせ",
                 hero_title: "技術で築く未来, 環境に優しい農業の新基準<br><span class='text-green-400'>Bukwang Solar</span>が描く美しい共存",
                 hero_subtitle: "持続可能な未来のための最適融合型スマートファーム営農型太陽光",
                 btn_calc: "予想収益を計算する", btn_contact: "無料相談に申し込む",
                 ceo_title: "CEO MESSAGE", ceo_greeting: "ご挨拶",
                 ceo_text1: "私たちは農業、エネルギー、環境が共存する持続可能な未来を夢見ています。",
                 ceo_text2: "単なる食品生産を超え, 営農型太陽光によるエネルギー革新をリードします。",
-                ceo_text3: "革新적인 스마트팜 솔루션으로 농가의 수익성을 높입니다.",
+                ceo_text3: "革新的なスマートファームソリューションで農家の収益性を高めます。",
                 biz_1_title: "営農型太陽光", biz_1_text: "農地と太陽光の調和のとれた結合",
                 biz_2_title: "生活太陽光", biz_2_text: "日常に溶け込むクリーンエネルギー",
                 biz_3_title: "スマートファーム EMS", biz_3_text: "遠隔制御およびリアルタイムエネルギー管理",
                 view_gallery: "ギャラリーを見る", view_more: "詳細を見る →",
                 calc_title: "収益シミュレーター", calc_label_area: "設置面積", calc_label_capacity: "発電容量 (kW)", calc_label_currency: "通貨",
-                calc_res_label: "予想月間収益", calc_note: "* 実際の収益は日射量により異なる場合があります。",
+                calc_res_monthly: "予想月間収益", calc_res_yearly: "予想年間収益", calc_note: "* 実際の収益は日射量により異なる場合があります。",
                 tech_title: "実証された技術力", tech_1: "施工特許保有", tech_2: "営農専用構造物", tech_3: "RTU モニタリング",
                 contact_title: "無料相談のお申し込み", form_name: "お名前", form_tel: "連絡先", form_msg: "お問い合わせ内容", btn_submit: "相談を申し込む",
                 footer_addr: "本社: 大田広域市西区復水路 30", gallery_agri: "営農型施工ギャラリー", gallery_daily: "生活型施工ギャラリー"
             }
         };
 
-        // 2. 헬퍼 함수들 (Shuffle, Modal 등)
+        function calculateProfit() {
+            const cap = parseFloat(document.getElementById('capacity').value) || 0;
+            const currency = document.getElementById('currency-select').value;
+            
+            // 기본 계산 로직 (월간)
+            const monthlyGen = cap * 3.6 * 30; // 일평균 3.6시간 발전 가정
+            const revenueKRW_Monthly = monthlyGen * 210; // kW당 210원 가정
+            const revenueKRW_Yearly = revenueKRW_Monthly * 12;
+
+            const rates = { KRW: 1, USD: 1/1350, CNY: 1/190, JPY: 1/9, RUB: 1/15 };
+            const symbols = { KRW: '₩', USD: '$', CNY: '¥', JPY: '¥', RUB: '₽' };
+            
+            // 심볼 일괄 업데이트
+            document.querySelectorAll('.res-symbol').forEach(el => el.innerText = symbols[currency]);
+            
+            // 결과값 출력
+            document.getElementById('result-monthly').innerText = Math.floor(revenueKRW_Monthly * rates[currency]).toLocaleString();
+            document.getElementById('result-yearly').innerText = Math.floor(revenueKRW_Yearly * rates[currency]).toLocaleString();
+        }
+
+        function updateByArea() {
+            const area = document.getElementById('area').value;
+            const unit = document.getElementById('area-unit').value;
+            if (!area) return;
+            const cap = (unit === 'pyung') ? area / 4 : area / 13.2;
+            document.getElementById('capacity').value = cap.toFixed(1);
+            calculateProfit();
+        }
+
+        function changeLanguage(lang) {
+            if (!translations[lang]) return;
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang][key]) el.innerHTML = translations[lang][key];
+            });
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (translations[lang][key]) el.placeholder = translations[lang][key];
+            });
+            calculateProfit();
+        }
+
+        // 공통 기능 (기존 유지)
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -394,20 +441,15 @@
             const title = document.getElementById('modal-title');
             const countLabel = document.getElementById('modal-count');
             const currentLang = document.getElementById('lang-select').value;
-            
             grid.innerHTML = ''; 
-            let count = 0;
-            let prefix = "";
-            let indices = [];
+            let count = 0, prefix = "", indices = [];
 
             if(type === 'agri') {
                 title.innerText = (translations[currentLang] || translations['ko']).gallery_agri;
-                count = 31;
-                prefix = ""; 
+                count = 31; prefix = ""; 
             } else {
                 title.innerText = (translations[currentLang] || translations['ko']).gallery_daily;
-                count = 16;
-                prefix = "b"; 
+                count = 16; prefix = "b"; 
             }
 
             for(let i=1; i<=count; i++) indices.push(i);
@@ -416,18 +458,17 @@
 
             indices.forEach(i => {
                 const imgContainer = document.createElement('div');
-                imgContainer.className = "gallery-item group relative overflow-hidden rounded-xl bg-gray-100 shadow-sm hover:shadow-md transition-all cursor-pointer border";
+                imgContainer.className = "gallery-item group relative overflow-hidden rounded-xl bg-gray-100 shadow-sm border";
                 const img = document.createElement('img');
                 img.src = `${prefix}${i}.jpg`;
                 img.className = "w-full h-full object-cover transition duration-500 group-hover:scale-110";
                 img.loading = "lazy";
                 img.onerror = function() { 
-                    this.parentElement.innerHTML = `<div class="flex flex-col items-center justify-center h-full text-gray-300"><i class="fas fa-image text-2xl mb-1"></i><span class="text-[10px] font-mono">${prefix}${i}.jpg</span></div>`; 
+                    this.parentElement.innerHTML = `<div class="flex flex-col items-center justify-center h-full text-gray-300 text-[10px]">${prefix}${i}.jpg</div>`; 
                 };
                 imgContainer.appendChild(img);
                 grid.appendChild(imgContainer);
             });
-            
             modal.classList.remove('hidden');
             document.body.style.overflow = 'hidden'; 
         }
@@ -435,39 +476,6 @@
         function closeGallery() {
             document.getElementById('gallery-modal').classList.add('hidden');
             document.body.style.overflow = 'auto';
-        }
-
-        function changeLanguage(lang) {
-            if (!translations[lang]) return;
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if (translations[lang][key]) el.innerHTML = translations[lang][key];
-            });
-            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-                const key = el.getAttribute('data-i18n-placeholder');
-                if (translations[lang][key]) el.placeholder = translations[lang][key];
-            });
-            calculateProfit();
-        }
-
-        function updateByArea() {
-            const area = document.getElementById('area').value;
-            const unit = document.getElementById('area-unit').value;
-            if (!area) return;
-            const cap = (unit === 'pyung') ? area / 4 : area / 13.2;
-            document.getElementById('capacity').value = cap.toFixed(1);
-            calculateProfit();
-        }
-
-        function calculateProfit() {
-            const cap = parseFloat(document.getElementById('capacity').value) || 0;
-            const currency = document.getElementById('currency-select').value;
-            const monthlyGen = cap * 3.6 * 30;
-            const revenueKRW = monthlyGen * 210;
-            const rates = { KRW: 1, USD: 1/1350, CNY: 1/190, JPY: 1/9, RUB: 1/15 };
-            const symbols = { KRW: '₩', USD: '$', CNY: '¥', JPY: '¥', RUB: '₽' };
-            document.getElementById('res-symbol').innerText = symbols[currency];
-            document.getElementById('result').innerText = Math.floor(revenueKRW * rates[currency]).toLocaleString();
         }
 
         window.addEventListener('scroll', () => {
@@ -483,7 +491,6 @@
             breakpoints: { 640: { slidesPerView: 2 }, 1024: { slidesPerView: 3 } }
         });
 
-        // 3. EmailJS 제출 로직 수정 (요청하신 환경변수 적용)
         document.getElementById('contact-form').addEventListener('submit', function(e) {
             e.preventDefault();
             const btn = this.querySelector('button');
@@ -491,15 +498,13 @@
             btn.innerText = "Sending...";
             btn.disabled = true;
 
-            // 상단에 정의된 EMAILJS_SERVICE_ID와 EMAILJS_TEMPLATE_ID 사용
             emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, this)
                 .then(() => { 
                     alert('성공적으로 접수되었습니다. 곧 연락드리겠습니다!'); 
                     this.reset(); 
                 })
                 .catch((err) => {
-                    console.error('EmailJS Error:', err);
-                    alert('발송 실패: ' + (err.text || '알 수 없는 오류가 발생했습니다.')); 
+                    alert('발송 실패: ' + (err.text || '오류 발생')); 
                 })
                 .finally(() => { 
                     btn.innerText = originalText; 
