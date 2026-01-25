@@ -54,7 +54,7 @@
         .video-container.playing .video-overlay { opacity: 0; pointer-events: none; }
 
         /* 모달 애니메이션 */
-        #gallery-modal { transition: opacity 0.3s ease-in-out; }
+        #gallery-modal, #video-modal { transition: opacity 0.3s ease-in-out; }
         .modal-content { max-height: 80vh; overflow-y: auto; }
     </style>
 </head>
@@ -127,7 +127,7 @@
         <h2 class="text-3xl font-bold mb-4">BUSINESS AREAS</h2>
         <div class="w-20 h-1 bg-primary-blue mx-auto mb-12"></div>
         
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div onclick="openGallery('영농형')" class="cursor-pointer bg-white p-8 rounded-2xl shadow-md border-t-4 border-green-500 hover:bg-green-50 transition group">
                 <div class="overflow-hidden rounded-lg mb-4">
                     <img src="solar-field.jpg" alt="Field" class="w-full h-48 object-cover group-hover:scale-110 transition duration-500">
@@ -152,15 +152,6 @@
                 <span class="text-yellow-600 font-bold" data-i18n="view_more">자세히 보기 →</span>
             </div>
         </div>
-
-        <div class="max-w-4xl mx-auto rounded-3xl overflow-hidden shadow-2xl bg-black video-container" id="video-wrapper">
-            <div class="video-overlay" id="play-btn">
-                <i class="fas fa-play text-white text-6xl opacity-80"></i>
-            </div>
-            <video id="farm-video" class="w-full aspect-video" loop>
-                <source src="farm_video.mp4" type="video/mp4">
-            </video>
-        </div>
     </section>
 
     <div id="gallery-modal" class="fixed inset-0 z-[100] hidden bg-black/90 flex items-center justify-center p-4">
@@ -176,14 +167,32 @@
         </div>
     </div>
 
+    <div id="video-modal" class="fixed inset-0 z-[100] hidden bg-black/90 flex items-center justify-center p-4">
+        <button onclick="closeVideoModal()" class="absolute top-6 right-6 text-white text-4xl hover:text-gray-300 z-[110]">&times;</button>
+        <div class="w-full max-w-4xl bg-black rounded-3xl overflow-hidden shadow-2xl">
+            <video id="modal-video-player" class="w-full aspect-video" controls>
+                <source id="video-source" src="" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
+
     <section id="tech" class="py-24 max-w-7xl mx-auto px-4">
         <div class="flex flex-col md:flex-row gap-16 items-center">
             <div class="md:w-1/2">
                 <h2 class="text-3xl font-bold mb-6" data-i18n="tech_title">검증된 기술력</h2>
                 <div class="space-y-4">
                     <div class="p-4 bg-white rounded-xl shadow-sm border-l-4 border-blue-500"><i class="fas fa-certificate mr-2 text-blue-500"></i> <span data-i18n="tech_1">시공 특허 보유</span></div>
-                    <div class="p-4 bg-white rounded-xl shadow-sm border-l-4 border-green-500"><i class="fas fa-leaf mr-2 text-green-500"></i> <span data-i18n="tech_2">영농형 전용 구조물</span></div>
-                    <div class="p-4 bg-white rounded-xl shadow-sm border-l-4 border-yellow-500"><i class="fas fa-microchip mr-2 text-yellow-500"></i> <span data-i18n="tech_3">RTU 모니터링 시스템</span></div>
+                    
+                    <div onclick="openVideoModal('images/스마트팜영농형태양광 구조물.mp4')" class="p-4 bg-white rounded-xl shadow-sm border-l-4 border-green-500 cursor-pointer hover:bg-green-50 transition">
+                        <i class="fas fa-leaf mr-2 text-green-500"></i> <span data-i18n="tech_2">영농형 전용 구조물</span>
+                        <i class="fas fa-play-circle ml-2 text-gray-400"></i>
+                    </div>
+
+                    <div onclick="openVideoModal('images/전력원격감시제어 테스트영상.mp4')" class="p-4 bg-white rounded-xl shadow-sm border-l-4 border-yellow-500 cursor-pointer hover:bg-yellow-50 transition">
+                        <i class="fas fa-microchip mr-2 text-yellow-500"></i> <span data-i18n="tech_3">RTU 모니터링 시스템</span>
+                        <i class="fas fa-play-circle ml-2 text-gray-400"></i>
+                    </div>
                 </div>
             </div>
             <div class="md:w-1/2 w-full">
@@ -307,16 +316,35 @@
             }
         };
 
-        // 갤러리 열기 함수
+        function openVideoModal(videoPath) {
+            const modal = document.getElementById('video-modal');
+            const video = document.getElementById('modal-video-player');
+            const source = document.getElementById('video-source');
+            
+            source.src = videoPath;
+            video.load();
+            modal.classList.remove('hidden');
+            video.play();
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeVideoModal() {
+            const modal = document.getElementById('video-modal');
+            const video = document.getElementById('modal-video-player');
+            video.pause();
+            video.currentTime = 0;
+            modal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
         function openGallery(type) {
             const modal = document.getElementById('gallery-modal');
             const grid = document.getElementById('modal-grid-content');
             const title = document.getElementById('modal-title');
             
-            grid.innerHTML = ''; // 초기화
+            grid.innerHTML = ''; 
             title.innerText = type + ' 시공 갤러리';
 
-            // 1번부터 30번까지 이미지 생성
             for (let i = 1; i <= 30; i++) {
                 const imgContainer = document.createElement('div');
                 imgContainer.className = "group relative overflow-hidden rounded-xl bg-gray-100 aspect-square";
@@ -332,7 +360,7 @@
             }
 
             modal.classList.remove('hidden');
-            document.body.style.overflow = 'hidden'; // 스크롤 방지
+            document.body.style.overflow = 'hidden'; 
         }
 
         function closeGallery() {
@@ -340,7 +368,6 @@
             document.body.style.overflow = 'auto';
         }
 
-        // 언어 변경
         function changeLanguage(lang) {
             if (!translations[lang]) return;
             document.querySelectorAll('[data-i18n]').forEach(el => {
@@ -354,7 +381,6 @@
             calculateProfit();
         }
 
-        // 수익 계산
         function updateByArea() {
             const area = document.getElementById('area').value;
             const unit = document.getElementById('area-unit').value;
@@ -375,14 +401,12 @@
             document.getElementById('result').innerText = Math.floor(revenueKRW * rates[currency]).toLocaleString();
         }
 
-        // 스크롤 네비게이션 효과
         window.addEventListener('scroll', () => {
             const nav = document.getElementById('main-nav');
             if (window.scrollY > 50) nav.classList.add('scrolled');
             else nav.classList.remove('scrolled');
         });
 
-        // 특허 슬라이더
         new Swiper('.patent-slider', {
             slidesPerView: 1, spaceBetween: 20, loop: true,
             autoplay: { delay: 3000 },
@@ -390,20 +414,6 @@
             breakpoints: { 640: { slidesPerView: 2 }, 1024: { slidesPerView: 3 } }
         });
 
-        // 비디오 컨트롤
-        const videoWrapper = document.getElementById('video-wrapper');
-        const video = document.getElementById('farm-video');
-        videoWrapper.addEventListener('click', () => {
-            if (video.paused) {
-                video.play();
-                videoWrapper.classList.add('playing');
-            } else {
-                video.pause();
-                videoWrapper.classList.remove('playing');
-            }
-        });
-
-        // 이메일 폼 전송
         document.getElementById('contact-form').addEventListener('submit', function(e) {
             e.preventDefault();
             const btn = this.querySelector('button');
