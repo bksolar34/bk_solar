@@ -115,7 +115,8 @@
     <section id="about" class="py-24 max-w-7xl mx-auto px-4 text-center">
         <h2 class="text-3xl font-bold mb-4">BUSINESS AREAS</h2>
         <div class="w-20 h-1 bg-primary-blue mx-auto mb-12"></div>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
             <div class="bg-white p-8 rounded-2xl shadow-md border-t-4 border-green-500">
                 <img src="solar-field.jpg" alt="Field" class="w-full h-48 object-cover rounded-lg mb-4">
                 <h3 class="text-xl font-bold mb-2" data-i18n="biz_1_title">영농형 태양광</h3>
@@ -135,6 +136,13 @@
                 <span class="text-yellow-600 font-bold" data-i18n="view_more">자세히 보기 →</span>
             </div>
         </div>
+
+        <div class="max-w-4xl mx-auto rounded-3xl overflow-hidden shadow-2xl bg-black">
+            <video class="w-full aspect-video" controls autoplay muted loop>
+                <source src="farm_video.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
     </section>
 
     <section id="tech" class="py-24 max-w-7xl mx-auto px-4">
@@ -150,12 +158,12 @@
             <div class="md:w-1/2 w-full">
                 <div class="swiper patent-slider">
                     <div class="swiper-wrapper">
-                        <div class="swiper-slide"><img src="./images/스마트팜태양광온실특허증.jpg"></div>
-                        <div class="swiper-slide"><img src="./images/영농형태양광특허증.jpg"></div>
-                        <div class="swiper-slide"><img src="./images/전력원격감시제어특허증.png"></div>
-                        <div class="swiper-slide"><img src="./images/스마트팜영농형태양광PCT.jpg"></div>
-                        <div class="swiper-slide"><img src="./images/노지스마트팜영농형태양광특허증.png"></div>
-                        <div class="swiper-slide"><img src="./images/건물일체형특허증.png"></div>
+                        <div class="swiper-slide"><img src="스마트팜태양광온실특허증.jpg"></div>
+                        <div class="swiper-slide"><img src="영농형태양광특허증.jpg"></div>
+                        <div class="swiper-slide"><img src="전력원격감시제어특허증.png"></div>
+                        <div class="swiper-slide"><img src="스마트팜영농형태양광PCT.jpg"></div>
+                        <div class="swiper-slide"><img src="노지스마트팜영농형태양광특허증.png"></div>
+                        <div class="swiper-slide"><img src="건물일체형특허증.png"></div>
                     </div>
                     <div class="swiper-pagination"></div>
                 </div>
@@ -227,7 +235,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
     <script>
-        // --- 스크립트 부분은 기존 로직을 그대로 유지하되, Swiper 등의 초기화만 확인 ---
         const translations = {
             ko: {
                 nav_ceo: "CEO인사말", nav_about: "사업영역", nav_calc: "수익계산기", nav_tech: "기술력", nav_contact: "문의하기",
@@ -274,7 +281,7 @@
                 btn_calc: "计算预期收益", btn_contact: "申请免费咨询",
                 ceo_title: "CEO 寄语", ceo_greeting: "您好，",
                 ceo_text1: "我们梦想一个农业、能源和环境共存的可持续未来。",
-                ceo_text2: "超越单纯的食品生产，我们通过农业光伏引领能源创新。",
+                ceo_text2: "超越单纯의食品生产，我们通过农业光伏引领能源创新。",
                 ceo_text3: "通过创新的智能农场解决方案提高农场盈利能力。",
                 biz_1_title: "农用光伏", biz_1_text: "农田与太阳能的和谐结合",
                 biz_2_title: "生活光伏", biz_2_text: "融入日常生活的环保能源",
@@ -284,7 +291,7 @@
                 calc_res_label: "预计月收入", calc_note: "* 实际收入取决于日照量。",
                 tech_title: "验证的技术力", tech_1: "持有施工专利", tech_2: "农用专用结构", tech_3: "RTU 监控系统",
                 contact_title: "申请免费咨询", form_name: "姓名", form_tel: "联系电话", form_msg: "咨询内容", btn_submit: "提交申请",
-                footer_addr: "总部：韩国大田广域市西区复水院中路30"
+                footer_addr: "总部：韩国大田广域市西구复水院中路30"
             },
             ru: {
                 nav_ceo: "Приветствие CEO", nav_about: "Бизнес", nav_calc: "Калькулятор", nav_tech: "Технологии", nav_contact: "Контакты",
@@ -306,12 +313,12 @@
                 footer_addr: "Штаб-квартира: 30, Boksunjung-ro, Seo-gu, Daejeon, Korea"
             },
             ja: {
-                nav_ceo: "CEO挨拶", nav_about: "事業領域", nav_calc: "収益計算", nav_tech: "技術力", nav_contact: "お問い合わせ",
+                nav_ceo: "CEO挨拶", nav_about: "事業領域", nav_calc: "収益計算", nav_tech: "기술력", nav_contact: "お問い合わせ",
                 hero_title: "技術で耕す未来、環境에優しい農業の新基準<br><span class='text-green-400'>Bukwang Solar</span> 美しい共存",
-                hero_subtitle: "持続可能な未来のための最適融合型スマートファーム営農型太陽光",
+                hero_subtitle: "持続可能な未来のための最適融合型スマートファーム営농型太陽光",
                 btn_calc: "予想収益を計算する", btn_contact: "無料相談を申し込む",
                 ceo_title: "CEOメッセージ", ceo_greeting: "皆様、こんにちは。",
-                ceo_text1: "私たちは、農業とエネルギー、環境が共存する持続可能な未来を夢見ています。",
+                ceo_text1: "私たちは、農業とエネルギー、環境が共存する持続可能な未来를夢見ています。",
                 ceo_text2: "営農型太陽光によるエネルギー革新をリードしています。",
                 ceo_text3: "革新적인スマートファームソリューションで農家の収益性を高めます。",
                 biz_1_title: "営農型太陽光", biz_1_text: "農地と太陽光の調和のとれた結合",
@@ -376,11 +383,12 @@
         document.getElementById('contact-form').addEventListener('submit', function(e) {
             e.preventDefault();
             const btn = this.querySelector('button');
+            const originalText = btn.innerText;
             btn.innerText = "Sending...";
             emailjs.sendForm('service_id', 'template_id', this)
                 .then(() => { alert('Success!'); this.reset(); })
                 .catch((err) => alert('Error: ' + JSON.stringify(err)))
-                .finally(() => { btn.innerText = "Submit"; });
+                .finally(() => { btn.innerText = originalText; });
         });
     </script>
 </body>
