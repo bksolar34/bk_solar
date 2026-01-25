@@ -12,8 +12,13 @@
     
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script type="text/javascript">
+        // EmailJS 설정값 정의 (환경 변수처럼 관리)
+        const EMAILJS_PUBLIC_KEY = "PLeho0_7nJNINKZ9p";
+        const EMAILJS_SERVICE_ID = "service_23hd17n";
+        const EMAILJS_TEMPLATE_ID = "template_z8f0ejj";
+
         (function() {
-            emailjs.init("PLeho0_7nJNINKZ9p"); 
+            emailjs.init(EMAILJS_PUBLIC_KEY); 
         })();
     </script>
 
@@ -298,7 +303,7 @@
             zh: {
                 nav_ceo: "CEO致辞", nav_about: "业务领域", nav_calc: "收益计算器", nav_tech: "技术力量", nav_contact: "联系我们",
                 hero_title: "以技术开创未来，绿色农业的新标准<br><span class='text-green-400'>Bukwang Solar</span> 设计的美丽共存",
-                hero_subtitle: "为了可持续未来的最佳融合式智能农场农业太阳能",
+                hero_subtitle: "为了可持续未来的最佳融合式智能农场农业太阳능",
                 btn_calc: "计算预期收益", btn_contact: "免费咨询申请",
                 ceo_title: "CEO 寄语", ceo_greeting: "您好！",
                 ceo_text1: "我们梦想着农业、能源与环境共存的可持续未来。",
@@ -334,7 +339,7 @@
                 footer_addr: "Штаб-квартира: 30, Boksunjung-ro, Seo-gu, Daejeon, Korea", gallery_agri: "Агровольтаика - Галерея", gallery_daily: "Солнце в быту - Галерея"
             },
             ja: {
-                nav_ceo: "代表挨拶", nav_about: "事業領域", nav_calc: "収益計算", nav_tech: "技術力", nav_contact: "お問い合わせ",
+                nav_ceo: "代表挨拶", nav_about: "事業領域", nav_calc: "収익計算", nav_tech: "技術力", nav_contact: "お問い合わせ",
                 hero_title: "技術で築く未来、環境に優しい農業の新基準<br><span class='text-green-400'>Bukwang Solar</span>が描く美しい共存",
                 hero_subtitle: "持続可能な未来のための最適融合型スマートファーム営農型太陽光",
                 btn_calc: "予想収益を計算する", btn_contact: "無料相談に申し込む",
@@ -354,7 +359,6 @@
             }
         };
 
-        // 피셔-예이츠 셔플 알고리즘 추가
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -404,7 +408,6 @@
                 prefix = "b"; 
             }
 
-            // 인덱스 배열 생성 후 셔플
             for(let i=1; i<=count; i++) indices.push(i);
             shuffleArray(indices);
 
@@ -487,15 +490,26 @@
             breakpoints: { 640: { slidesPerView: 2 }, 1024: { slidesPerView: 3 } }
         });
 
+        // 폼 제출 핸들러 수정
         document.getElementById('contact-form').addEventListener('submit', function(e) {
             e.preventDefault();
             const btn = this.querySelector('button');
             const originalText = btn.innerText;
             btn.innerText = "Sending...";
-            emailjs.sendForm('service_id', 'template_id', this)
-                .then(() => { alert('Success!'); this.reset(); })
-                .catch((err) => alert('Error: ' + JSON.stringify(err)))
-                .finally(() => { btn.innerText = originalText; });
+            
+            // 정의된 환경변수 상수를 사용하여 전송
+            emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, this)
+                .then(() => { 
+                    alert('상담 신청이 완료되었습니다!'); 
+                    this.reset(); 
+                })
+                .catch((err) => {
+                    console.error('EmailJS Error:', err);
+                    alert('오류가 발생했습니다: ' + (err.text || JSON.stringify(err)));
+                })
+                .finally(() => { 
+                    btn.innerText = originalText; 
+                });
         });
     </script>
 </body>
