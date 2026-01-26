@@ -287,10 +287,12 @@
 <section id="tech">
     <h2>보유 기술 및 특허</h2>
     <div class="tech-links">
-        <div onclick="alert('구조물 시뮬레이션 영상을 재생합니다.')">
+        <div onclick="openVideoModal('스마트팜영농형태양광 구조물.mp4')" class="p-4 bg-white rounded-xl shadow-sm border-l-4 border-green-500 cursor-pointer hover:bg-green-50 transition flex justify-between items-center">
+            <span><i class="fas fa-leaf mr-2 text-green-500"></i> <span data-i18n="tech_2">영농형 전용 구조물</span></span>
             <i class="fas fa-play-circle fa-4x"></i><br>구조물 3D 시뮬레이션
         </div>
-        <div onclick="alert('원격제어 시연 영상을 재생합니다.')">
+        <div onclick="openVideoModal('전력원격감시제어 테스트영상.mp4')" class="p-4 bg-white rounded-xl shadow-sm border-l-4 border-yellow-500 cursor-pointer hover:bg-yellow-50 transition flex justify-between items-center">
+            <span><i class="fas fa-microchip mr-2 text-yellow-500"></i> <span data-i18n="tech_3">RTU 모니터링 시스템</span></span>
             <i class="fas fa-broadcast-tower fa-4x"></i><br>실시간 원격제어 시연
         </div>
     </div>
