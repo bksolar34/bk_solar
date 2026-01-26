@@ -4,17 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>부광솔라 | Bukwang Solar - Eco-Friendly Smart Farm</title>
-    <title>기술 및 특허 모달</title>
-
     <meta name="description" content="AI기반 융복합 스마트팜 영농형 태양광 솔루션. 식량 안보와 에너지 안보를 동시에 달성하는 부광솔라의 혁신 기술.">
     <meta name="keywords" content="스마트팜, 태양광, 부광솔라, 영농형태양광, Smart Farm, Solar Power, Agrivoltaics, Bukwang Solar, Photovoltaics, Smart farming solution">
 
     <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"> 
 
     <style>
         :root {
@@ -62,8 +59,7 @@
                         url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&q=80&w=1920');
             background-size: cover; background-position: center; background-attachment: fixed;
         }
-        #about .intro-text { text-align: center; max-width: 800px; margin: 0 auto 60px; }
-        #about .intro-text p { font-size: 1.25rem; color: var(--text-main); font-weight: 500; }
+        .intro-text { text-align: center; max-width: 800px; margin: 0 auto 60px; }
         
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; }
 
@@ -80,9 +76,7 @@
             content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 6px; background: var(--primary);
         }
         .card:hover { transform: translateY(-15px); box-shadow: 0 25px 50px rgba(0,0,0,0.15); }
-        .card i { color: var(--primary); margin-bottom: 25px; opacity: 0.9; }
-        .card h3 { font-size: 1.6rem; color: var(--secondary); margin-bottom: 20px; font-weight: 700; }
-        .card p { font-size: 1rem; color: var(--text-sub); margin: 0; }
+        .card i { color: var(--primary); margin-bottom: 25px; }
 
         #revenue { background-color: var(--primary-soft); }
         .calc-box { 
@@ -90,55 +84,24 @@
             box-shadow: var(--shadow); max-width: 1000px; margin: 0 auto;
         }
         .input-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-bottom: 30px; }
-        .input-group label { display: block; font-weight: 700; margin-bottom: 12px; color: var(--secondary); font-size: 0.95rem; }
         
-        .area-input-wrapper { display: flex; gap: 8px; }
-        .area-input-wrapper input { flex: 2; }
-        .area-input-wrapper select { flex: 1; min-width: 90px; cursor: pointer; }
-
         input, select { 
             width: 100%; padding: 18px; border: 2px solid #edf2f7; 
             border-radius: 15px; font-size: 1rem; background: #f8fafc;
-            color: var(--secondary); font-weight: 500;
         }
-        input:focus, select:focus { border-color: var(--primary); outline: none; background: #fff; box-shadow: 0 0 0 4px rgba(45, 140, 78, 0.1); }
 
         .btn-calc { 
             background: var(--primary); color: white; border: none; padding: 22px; 
             width: 100%; border-radius: 15px; font-size: 1.2rem; font-weight: 800;
-            cursor: pointer; margin-top: 20px; letter-spacing: 0.5px;
-            box-shadow: 0 10px 20px rgba(45, 140, 78, 0.2);
-        }
-        .btn-calc:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: 0 15px 30px rgba(45, 140, 78, 0.3); }
-
-        #result-display { 
-            margin-top: 40px; padding: 40px; background: var(--primary-soft); 
-            border-radius: 25px; border: 2px dashed var(--primary); text-align: center;
-            min-height: 150px; display: flex; flex-direction: column; justify-content: center;
+            cursor: pointer; margin-top: 20px;
         }
 
-        /* 추가된 분석 결과 디자인 요소 */
-        .solar-chart-mini { display: flex; align-items: flex-end; gap: 4px; height: 60px; margin: 20px auto; justify-content: center; }
-        .chart-bar { background: var(--primary); width: 12px; border-radius: 3px 3px 0 0; opacity: 0.7; }
-        .data-badge { background: #fff; padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; border: 1px solid #eee; }
-
-        .tech-links { display: flex; justify-content: center; gap: 80px; margin-bottom: 80px; }
-        .tech-links div { 
-            text-align: center; cursor: pointer; color: var(--secondary); font-weight: 700; 
-            background: var(--white); padding: 30px; border-radius: 20px; box-shadow: var(--shadow);
-            width: 220px;
-        }
-        .tech-links div:hover { transform: scale(1.05); color: var(--primary); }
-        .tech-links i { color: var(--primary); margin-bottom: 20px; }
-        
         .cert-gallery { 
             display: flex; overflow-x: auto; gap: 20px; padding: 20px 10px; 
-            scrollbar-width: thin; scrollbar-color: var(--primary) transparent;
         }
-        .cert-gallery::-webkit-scrollbar { height: 6px; }
-        .cert-gallery::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
-        .cert-gallery img { height: 260px; border: 1px solid #eee; border-radius: 12px; box-shadow: 5px 10px 20px rgba(0,0,0,0.05); background: white; }
+        .cert-gallery img { height: 260px; border-radius: 12px; box-shadow: 5px 10px 20px rgba(0,0,0,0.05); }
 
+        /* 모달 스타일 */
         .modal { 
             display: none; position: fixed; z-index: 2000; left: 0; top: 0; 
             width: 100%; height: 100%; background-color: rgba(0,0,0,0.95); overflow-y: auto; 
@@ -146,32 +109,27 @@
         .modal-content { 
             display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; padding: 60px 40px; 
         }
-        .modal-content img { max-width: 320px; border-radius: 15px; border: 2px solid rgba(255,255,255,0.1); }
+        .modal-content img { max-width: 320px; border-radius: 15px; }
+
+        #videoModal {
+            display: none; position: fixed; inset: 0;
+            background: rgba(0, 0, 0, 0.9); z-index: 3000;
+            align-items: center; justify-content: center;
+        }
+
+        .chart-bar { background: var(--primary); width: 12px; border-radius: 3px 3px 0 0; opacity: 0.7; }
+        .solar-chart-mini { display: flex; align-items: flex-end; gap: 4px; height: 60px; margin: 20px auto; justify-content: center; }
+        .data-badge { background: #fff; padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; border: 1px solid #eee; margin: 2px; }
 
         footer { padding: 80px 10%; text-align: center; background: #1a1a1a; color: #999; }
-        footer strong { color: var(--white); font-size: 1.2rem; }
-        footer p { margin: 10px 0; font-size: 0.95rem; }
 
         @media (max-width: 900px) {
             .input-grid { grid-template-columns: 1fr; }
             section { padding: 80px 6%; }
-            .tech-links { flex-direction: column; align-items: center; gap: 20px; }
-            .tech-links div { width: 100%; max-width: 300px; }
-        }
-    <style>
-        /* 비디오 모달 기본 스타일 */
-        #videoModal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
         }
     </style>
 </head>
-<body class="bg-gray-50 p-6">
+<body>
 
 <header>
     <img src="../회사로그.png" alt="부광솔라" class="logo" onerror="this.src='https://via.placeholder.com/180x40?text=Bukwang+Solar'">
@@ -181,8 +139,8 @@
 <section id="about">
     <div class="intro-text">
         <h2>회사소개</h2>
-        <p>이상기후와 식량 위기의 해법, 부광솔라가 제시합니다.</p>
-        <div style="margin-top: 25px; color: var(--text-sub);">
+        <p class="text-xl font-bold">이상기후와 식량 위기의 해법, 부광솔라가 제시합니다.</p>
+        <div class="mt-6 text-gray-600">
             지구 온난화로 인한 이상기후와 농촌 고령화로 재래식 농업은 한계에 달했습니다. <br>
             부광솔라는 이를 극복하기 위해 <strong>융복합 스마트팜 영농형 태양광</strong> 기술을 통해 <br>
             농업 생산성을 유지하면서 생태계 균형을 지키는 혁신을 주도합니다.
@@ -191,19 +149,19 @@
     
     <div class="grid">
         <div class="card">
-            <i class="fas fa-solar-panel fa-4x"></i>
-            <h3>영농형 태양광</h3>
-            <p>빅데이터 기반의 원격 제어 시스템으로 언제 어디서든 농작물의 상태를 정밀하게 관리하고 최적의 생육 환경을 조성합니다.</p>
+            <i class="fas fa-solar-panel fa-4x mb-4"></i>
+            <h3 class="text-xl font-bold mb-2">영농형 태양광</h3>
+            <p>빅데이터 기반의 원격 제어 시스템으로 농작물의 상태를 정밀하게 관리하고 최적의 생육 환경을 조성합니다.</p>
         </div>
         <div class="card">
-            <i class="fas fa-hand-holding-usd fa-4x"></i>
-            <h3>지속 가능한 수익</h3>
-            <p>전력 판매 수익과 농산물 수입, 그리고 탄소배출권까지 결합된 미래형 6차 산업 고수익 비즈니스 모델을 실현합니다.</p>
+            <i class="fas fa-hand-holding-usd fa-4x mb-4"></i>
+            <h3 class="text-xl font-bold mb-2">지속 가능한 수익</h3>
+            <p>전력 판매 수익과 농산물 수입, 탄소배출권까지 결합된 미래형 6차 산업 비즈니스 모델을 실현합니다.</p>
         </div>
         <div class="card">
-            <i class="fas fa-seedling fa-4x"></i>
-            <h3>친환경 스마트농업</h3>
-            <p>신재생 에너지와 ICT 기술의 융합으로 농지의 훼손 없이 에너지와 식량을 동시에 생산하는 지속 가능한 농업을 제안합니다.</p>
+            <i class="fas fa-seedling fa-4x mb-4"></i>
+            <h3 class="text-xl font-bold mb-2">친환경 스마트농업</h3>
+            <p>농지의 훼손 없이 에너지와 식량을 동시에 생산하는 지속 가능한 미래 농업을 제안합니다.</p>
         </div>
     </div>
 </section>
@@ -213,7 +171,7 @@
     <div class="calc-box">
         <div class="input-grid">
             <div class="input-group">
-                <label><i class="fas fa-globe"></i> 국가 선택</label>
+                <label class="font-bold mb-2 block"><i class="fas fa-globe"></i> 국가 선택</label>
                 <select id="country-select">
                     <optgroup label="아시아">
                         <option value="36.35,127.38,KRW,1,대한민국">대한민국</option>
@@ -267,21 +225,21 @@
                 </select>
             </div>
             <div class="input-group">
-                <label><i class="fas fa-ruler-combined"></i> 토지 면적 입력</label>
-                <div class="area-input-wrapper">
+                <label class="font-bold mb-2 block"><i class="fas fa-ruler-combined"></i> 토지 면적</label>
+                <div class="flex gap-2">
                     <input type="number" id="land-area" value="600">
-                    <select id="area-unit">
+                    <select id="area-unit" style="width: 100px;">
                         <option value="py">평</option>
                         <option value="m2">m²</option>
                     </select>
                 </div>
             </div>
             <div class="input-group">
-                <label><i class="fas fa-bolt"></i> SMP 단가 (kWh당)</label>
+                <label class="font-bold mb-2 block"><i class="fas fa-bolt"></i> SMP 단가 (kWh당)</label>
                 <input type="number" id="smp-price" value="150">
             </div>
             <div class="input-group">
-                <label><i class="fas fa-leaf"></i> 탄소크래딧 단가 (MWh당)</label>
+                <label class="font-bold mb-2 block"><i class="fas fa-leaf"></i> 탄소크래딧 (MWh당)</label>
                 <input type="number" id="carbon-price" value="30000">
             </div>
         </div>
@@ -289,87 +247,91 @@
             <i class="fas fa-microchip"></i> NASA 실시간 데이터 분석 실행
         </button>
         
-        <div id="result-display">
-            <p style="color:var(--text-sub);">조건을 입력하고 분석 버튼을 눌러주세요.</p>
+        <div id="result-display" class="mt-10 p-10 border-2 border-dashed border-green-500 rounded-3xl text-center min-h-[150px] flex flex-col justify-center bg-green-50">
+            <p class="text-gray-500">조건을 입력하고 분석 버튼을 눌러주세요.</p>
         </div>
-        <p style="font-size:0.85rem; color:#e74c3c; margin-top:20px; text-align:center; opacity:0.8;">
-            <i class="fas fa-info-circle"></i> 본 수치는 NASA 일사량 데이터를 기반으로 한 시뮬레이션이며, 실제 환경에 따라 차이가 있을 수 있습니다.
-        </p>
     </div>
 </section>
 
-<section id="tech" class="max-w-2xl mx-auto">
-    <h2 class="text-2xl font-bold mb-6 text-gray-800">보유 기술 및 특허</h2>
+
+
+<section id="tech" class="max-w-4xl mx-auto">
+    <h2 class="text-2xl font-bold mb-6">보유 기술 및 특허</h2>
     
-    <div class="tech-links space-y-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10">
         <div onclick="openVideoModal('스마트팜영농형태양광 구조물.mp4', '영농형 전용 구조물 3D 시뮬레이션')" 
-             class="p-4 bg-white rounded-xl shadow-sm border-l-4 border-green-500 cursor-pointer hover:bg-green-50 transition flex justify-between items-center group">
+             class="p-6 bg-white rounded-xl shadow-sm border-l-4 border-green-500 cursor-pointer hover:bg-green-50 flex justify-between items-center group">
             <div class="flex items-center">
                 <i class="fas fa-leaf mr-3 text-green-500 text-xl"></i>
                 <div>
-                    <span class="font-bold block text-gray-700" data-i18n="tech_2">영농형 전용 구조물</span>
-                    <span class="text-sm text-gray-500">구조물 3D 시뮬레이션</span>
+                    <span class="font-bold block text-gray-700">영농형 전용 구조물</span>
+                    <span class="text-sm text-gray-500">3D 시뮬레이션 보기</span>
                 </div>
             </div>
-            <i class="fas fa-play-circle text-gray-300 group-hover:text-green-500 text-4xl transition"></i>
+            <i class="fas fa-play-circle text-gray-300 group-hover:text-green-500 text-4xl"></i>
         </div>
 
         <div onclick="openVideoModal('전력원격감시제어 테스트영상.mp4', 'RTU 모니터링 시스템 실시간 제어')" 
-             class="p-4 bg-white rounded-xl shadow-sm border-l-4 border-yellow-500 cursor-pointer hover:bg-yellow-50 transition flex justify-between items-center group">
+             class="p-6 bg-white rounded-xl shadow-sm border-l-4 border-yellow-500 cursor-pointer hover:bg-yellow-50 flex justify-between items-center group">
             <div class="flex items-center">
                 <i class="fas fa-microchip mr-3 text-yellow-500 text-xl"></i>
                 <div>
-                    <span class="font-bold block text-gray-700" data-i18n="tech_3">RTU 모니터링 시스템</span>
+                    <span class="font-bold block text-gray-700">RTU 모니터링 시스템</span>
                     <span class="text-sm text-gray-500">실시간 원격제어 시연</span>
                 </div>
             </div>
-            <i class="fas fa-broadcast-tower text-gray-300 group-hover:text-yellow-500 text-4xl transition"></i>
+            <i class="fas fa-broadcast-tower text-gray-300 group-hover:text-yellow-500 text-4xl"></i>
         </div>
     </div>
-</section>
 
-<div id="videoModal" onclick="closeModal()">
-    <div class="relative w-full max-w-4xl p-4" onclick="event.stopPropagation()">
-        <div class="flex justify-between items-center mb-2 text-white">
-            <h3 id="modalTitle" class="text-lg font-medium">비디오 재생</h3>
-            <button onclick="closeModal()" class="text-3xl">&times;</button>
-        </div>
-        <div class="bg-black rounded-lg overflow-hidden shadow-2xl">
-            <video id="targetVideo" controls class="w-full aspect-video">
-                <source src="" type="video/mp4">
-                브라우저가 비디오 재생을 지원하지 않습니다.
-            </video>
-        </div>
-    </div>
-</div>
-    </div>
     <div class="cert-gallery">
         <img src="건물일체형특허증.png" alt="특허" onerror="this.src='https://via.placeholder.com/180x260?text=Patent+1'">
         <img src="노지스마트팜영농형태양광특허증.png" alt="특허" onerror="this.src='https://via.placeholder.com/180x260?text=Patent+2'">
         <img src="스마트팜영농형태양광PCT.jpg" alt="특허" onerror="this.src='https://via.placeholder.com/180x260?text=Patent+3'">
         <img src="스마트팜태양광온실특허증.jpg" alt="특허" onerror="this.src='https://via.placeholder.com/180x260?text=Patent+4'">
         <img src="영농형태양광특허증.jpg" alt="특허" onerror="this.src='https://via.placeholder.com/180x260?text=Patent+5'">
-        <img src="전력원격감시제어특허증.jpg" alt="특허" onerror="this.src='https://via.placeholder.com/180x260?text=Patent+6'">
     </div>
 </section>
 
-<section id="contact" style="background: var(--light-gray);">
+<div id="videoModal" onclick="closeVideoModal()">
+    <div class="relative w-full max-w-4xl p-4" onclick="event.stopPropagation()">
+        <div class="flex justify-between items-center mb-2 text-white">
+            <h3 id="modalTitle" class="text-lg font-medium">비디오 재생</h3>
+            <button onclick="closeVideoModal()" class="text-3xl">&times;</button>
+        </div>
+        <div class="bg-black rounded-lg overflow-hidden shadow-2xl">
+            <video id="targetVideo" controls class="w-full aspect-video">
+                <source src="" type="video/mp4">
+            </video>
+        </div>
+    </div>
+</div>
+
+<div id="gallery-modal" class="modal">
+    <div class="sticky top-0 p-6 text-right bg-black/50 backdrop-blur-md z-10">
+        <button onclick="closeGallery()" class="bg-green-600 text-white px-6 py-2 rounded-full">
+            <i class="fas fa-times"></i> 닫기
+        </button>
+    </div>
+    <div class="modal-content" id="modal-images"></div>
+</div>
+
+<section id="contact" class="bg-gray-100">
     <div class="grid">
         <div class="card" style="text-align: left; align-items: flex-start;">
             <h2 style="text-align: left; margin-bottom: 30px;">상담 신청</h2>
-            <form id="contact-form" style="width: 100%;">
-                <input type="text" name="from_name" placeholder="성함/회사명" required style="margin-bottom: 15px;">
-                <input type="email" name="reply_to" placeholder="이메일 주소" required style="margin-bottom: 15px;">
-                <textarea name="message" rows="5" style="width:100%; border-radius:15px; padding:18px; border:2px solid #edf2f7; background:#f8fafc; font-family:inherit;" placeholder="문의내용"></textarea>
+            <form id="contact-form" class="w-full">
+                <input type="text" name="from_name" placeholder="성함/회사명" required class="mb-4">
+                <input type="email" name="reply_to" placeholder="이메일 주소" required class="mb-4">
+                <textarea name="message" rows="5" class="w-full p-4 border-2 rounded-xl mb-4" placeholder="문의내용"></textarea>
                 <button type="submit" class="btn-calc">상담 내용 전송</button>
             </form>
         </div>
         <div class="card">
-            <h2 style="margin-bottom: 30px;">갤러리 & 소식</h2>
-            <p style="margin-bottom: 30px;">부광솔라의 다양한 시공 사례와 최신 기술 도입 현황을 확인하세요.</p>
-            <button class="btn-calc" onclick="openGallery()" style="background: var(--secondary); margin-bottom: 25px;">시공 사례 갤러리 보기</button>
-            <br>
-            <a href="https://blog.naver.com/bk_solar" target="_blank" style="text-decoration: none; color: var(--primary); font-weight:700; font-size: 1.1rem;">
+            <h2 class="mb-8">갤러리 & 소식</h2>
+            <p class="mb-8">부광솔라의 다양한 시공 사례와 최신 기술 도입 현황을 확인하세요.</p>
+            <button class="btn-calc bg-gray-800 mb-6" onclick="openGallery()">시공 사례 갤러리 보기</button>
+            <a href="https://blog.naver.com/bk_solar" target="_blank" class="text-green-600 font-bold text-lg">
                 <i class="fas fa-external-link-alt"></i> 공식 네이버 블로그 방문
             </a>
         </div>
@@ -380,17 +342,8 @@
     <p><strong>부광솔라(Bukwang Solar)</strong></p>
     <p><i class="fas fa-phone"></i> 042-584-5017 | <i class="fas fa-envelope"></i> bk_solar@naver.com</p>
     <p><i class="fas fa-map-marker-alt"></i> 대전광역시 서구 복수중로30 | 사업자등록번호: 219-81-37549</p>
-    <p style="margin-top: 30px; font-size: 0.8rem; opacity: 0.5;">&copy; 2026 Bukwang Solar. All Rights Reserved.</p>
+    <p class="mt-8 text-xs opacity-50">&copy; 2026 Bukwang Solar. All Rights Reserved.</p>
 </footer>
-
-<div id="gallery-modal" class="modal">
-    <div style="padding: 25px; text-align: right; position: sticky; top: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(10px); z-index: 10;">
-        <button onclick="closeGallery()" style="color:white; font-size:20px; cursor:pointer; background:var(--primary); border:none; padding: 10px 25px; border-radius: 50px;">
-            <i class="fas fa-times"></i> 닫기
-        </button>
-    </div>
-    <div class="modal-content" id="modal-images"></div>
-</div>
 
 <script>
     function googleTranslateElementInit() {
@@ -408,7 +361,7 @@
         let capacityKW = (areaUnit === 'py') ? (areaValue / 6.18) : (areaValue / 20.43); 
 
         const display = document.getElementById('result-display');
-        display.innerHTML = `<div style="color:var(--primary)"><i class="fas fa-circle-notch fa-spin fa-2x"></i><br><br>NASA 기상 위성 데이터(NASA POWER)를 동기화 중입니다...</div>`;
+        display.innerHTML = `<div class="text-green-600"><i class="fas fa-circle-notch fa-spin fa-2x"></i><br><br>NASA 기상 데이터 분석 중...</div>`;
 
         try {
             const url = `https://power.larc.nasa.gov/api/temporal/monthly/point?parameters=ALLSKY_SFC_SW_DWN&community=RE&longitude=${lon}&latitude=${lat}&format=JSON&start=2023&end=2023`;
@@ -425,52 +378,31 @@
             const carbonRevenue = annualMWh * carbonPerMwh;
             const totalRevenue = smpRevenue + carbonRevenue;
 
-            // 월별 일사량 그래프용 막대 생성
             let chartHtml = '';
             validData.forEach(v => {
                 const height = (v / Math.max(...validData)) * 50;
-                chartHtml += `<div class="chart-bar" style="height:${height}px" title="${v.toFixed(2)} kWh/m²/day"></div>`;
+                chartHtml += `<div class="chart-bar" style="height:${height}px"></div>`;
             });
 
-            // 결과 화면 업데이트 (자료 추가 버전)
             display.innerHTML = `
-                <div style="color:var(--primary); font-weight:800; font-size:1.4rem; margin-bottom:15px;">
-                    <i class="fas fa-check-circle"></i> ${name} 지역 정밀 분석 리포트
-                </div>
-                
+                <div class="text-green-700 font-extrabold text-xl mb-4"><i class="fas fa-check-circle"></i> ${name} 분석 결과</div>
                 <div class="solar-chart-mini">${chartHtml}</div>
-                <p style="font-size:0.8rem; color:var(--text-sub); margin-bottom:20px;">[NASA 제공 월별 평균 일사량 트렌드 분석]</p>
-
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 15px; text-align:left; max-width: 600px; margin: 0 auto;">
-                    <div class="data-badge">설치 용량: ${capacityKW.toFixed(1)} kW</div>
-                    <div class="data-badge">시스템 효율(PR): 80.0%</div>
-                    <div class="data-badge">평균 일사량: ${avgSolar.toFixed(2)} kWh/m²</div>
-                    <div class="data-badge">연간 발전량: ${annualMWh.toFixed(1)} MWh</div>
+                <div class="flex flex-wrap justify-center gap-2 mb-6">
+                    <span class="data-badge">설치: ${capacityKW.toFixed(1)}kW</span>
+                    <span class="data-badge">일사량: ${avgSolar.toFixed(2)}kWh/m²</span>
+                    <span class="data-badge">발전: ${annualMWh.toFixed(1)}MWh</span>
                 </div>
-
-                <div style="margin-top:30px; padding:25px; background:#fff; border-radius:20px; box-shadow:0 5px 15px rgba(0,0,0,0.05);">
-                    <div style="display:flex; justify-content:space-between; margin-bottom:10px; font-size:0.9rem;">
-                        <span>발전 수익 (SMP)</span>
-                        <strong>${Math.floor(smpRevenue).toLocaleString()} ${currency}</strong>
+                <div class="bg-white p-6 rounded-2xl shadow-inner">
+                    <div class="flex justify-between text-sm mb-2"><span>발전 수익</span><strong>${Math.floor(smpRevenue).toLocaleString()} ${currency}</strong></div>
+                    <div class="flex justify-between text-sm text-green-600 mb-4"><span>탄소 수익</span><strong>+ ${Math.floor(carbonRevenue).toLocaleString()} ${currency}</strong></div>
+                    <div class="border-top pt-4">
+                        <span class="text-gray-500">예상 연수익</span><br>
+                        <strong class="text-3xl text-green-600">${Math.floor(totalRevenue).toLocaleString()} ${currency}</strong>
                     </div>
-                    <div style="display:flex; justify-content:space-between; margin-bottom:15px; font-size:0.9rem; color:var(--primary);">
-                        <span>탄소 가치 수익 (Credit)</span>
-                        <strong>+ ${Math.floor(carbonRevenue).toLocaleString()} ${currency}</strong>
-                    </div>
-                    <div style="border-top:2px solid var(--primary-soft); pt-15px; margin-top:15px; padding-top:15px;">
-                        <span style="font-size:1rem; color:var(--secondary); font-weight:600;">합산 예상 연수익</span><br>
-                        <strong style="color:var(--primary); font-size:2.4rem;">${Math.floor(totalRevenue).toLocaleString()} <small style="font-size:1.1rem;">${currency}</small></strong>
-                    </div>
-                </div>
-
-                <div style="margin-top:20px; font-size:0.85rem; color:var(--text-sub); line-height:1.5;">
-                    <i class="fas fa-lightbulb" style="color:var(--accent)"></i> 
-                    부광솔라의 <strong>영농형 솔루션</strong>은 일반 태양광 대비 <br> 농작물 수입이 추가되어 <strong>약 15~20% 높은 총 수익성</strong>을 확보합니다.
                 </div>
             `;
         } catch (e) {
-            console.error(e);
-            display.innerHTML = "<div style='color:#e74c3c'>데이터 연동 중 오류가 발생했습니다. 통신 상태를 확인해주세요.</div>";
+            display.innerHTML = "<div class='text-red-500'>데이터 연동 실패. 다시 시도해주세요.</div>";
         }
     }
 
@@ -485,14 +417,13 @@
         images.forEach(src => {
             const img = document.createElement('img');
             img.src = `../image/${src}`;
-            img.loading = "lazy";
+            img.className = "hover:scale-105 transition-transform duration-300";
             img.onerror = () => img.remove(); 
             imgContainer.appendChild(img);
         });
         
         modal.style.display = "block";
         document.body.style.overflow = "hidden"; 
-        window.history.pushState({modal: true}, null, "");
     }
 
     function closeGallery() {
@@ -500,31 +431,23 @@
         document.body.style.overflow = "auto";
     }
 
-    window.onpopstate = function() { closeGallery(); };
-<script>
-    const modal = document.getElementById('videoModal');
-    const video = document.getElementById('targetVideo');
-    const title = document.getElementById('modalTitle');
-
-    // 비디오 열기 함수
     function openVideoModal(src, label) {
-        title.innerText = label;
-        video.src = src; // 실제 경로에 파일이 있어야 함
-        modal.style.display = 'flex';
-        video.play().catch(e => console.log("자동재생 방지됨:", e));
+        document.getElementById('modalTitle').innerText = label;
+        const video = document.getElementById('targetVideo');
+        video.src = src;
+        document.getElementById('videoModal').style.display = 'flex';
+        video.play().catch(() => {});
     }
 
-    // 비디오 닫기 함수
-    function closeModal() {
+    function closeVideoModal() {
+        const modal = document.getElementById('videoModal');
+        const video = document.getElementById('targetVideo');
         modal.style.display = 'none';
         video.pause();
-        video.src = ""; // 리소스 초기화
+        video.src = "";
     }
 
-    // ESC 키로 닫기
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeModal();
-    });
+    window.addEventListener('popstate', closeGallery);
 </script>
 
 </body>
