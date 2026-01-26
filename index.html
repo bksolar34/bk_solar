@@ -42,10 +42,8 @@
             padding: 10px 8%; z-index: 1000; backdrop-filter: blur(15px);
             border-bottom: 1px solid rgba(0,0,0,0.05);
         }
-        /* 4. 로고 크기 조절 (가독성 향상 및 상단 고정 최적화) */
         .logo { height: 60px; width: auto; object-fit: contain; }
 
-        /* 3. 다국어 아이콘 확장 및 영어 표기 */
         #google_translate_element { transform: scale(1.2); transform-origin: right; }
         .goog-te-gadget-simple { padding: 8px !important; border-radius: 8px !important; }
         .goog-te-gadget-simple span { color: var(--secondary) !important; font-weight: bold !important; }
@@ -166,7 +164,7 @@
 <body>
 
 <header>
-    <img src="../회사로그.png" alt="부광솔라" class="logo" onerror="this.src='https://via.placeholder.com/250x80?text=Bukwang+Solar+Logo'">
+    <img src="./회사로그.png" alt="부광솔라" class="logo" onerror="this.src='https://via.placeholder.com/250x80?text=Bukwang+Solar+Logo'">
     <div id="google_translate_element"></div>
 </header>
 
@@ -244,7 +242,6 @@
                         <option value="-9.44,147.18,PGK,350,파푸아뉴기니">파푸아뉴기니</option>
                         <option value="51.16,71.47,KZT,3,카자흐스탄">카자흐스탄</option>
                         <option value="47.91,106.91,MNT,0.4,몽골">몽골</option>
-                    </optgroup>
                 </select>
             </div>
             <div class="input-group">
@@ -279,23 +276,24 @@
 <section id="tech">
     <h2>보유 기술 및 특허</h2>
     <div class="tech-links">
-        <div class="tech-links">
-        <div onclick="openVideoModal('스마트팜영농형태양광 구조물.mp4')" class="p-4 bg-white rounded-xl shadow-sm border-l-4 border-green-500 cursor-pointer hover:bg-green-50 transition flex justify-between items-center">
-            <span><i class="fas fa-leaf mr-2 text-green-500"></i> <span data-i18n="tech_2">영농형 전용 구조물</span></span>
-            <i class="fas fa-play-circle fa-4x"></i><br>구조물 3D 시뮬레이션
+        <div onclick="openVideoModal('./스마트팜영농형태양광 구조물.mp4')" class="tech-card">
+            <i class="fas fa-leaf fa-4x"></i>
+            <span>영농형 전용 구조물</span>
+            <p>구조물 3D 시뮬레이션</p>
         </div>
-        <div onclick="openVideoModal('전력원격감시제어 테스트영상.mp4')" class="p-4 bg-white rounded-xl shadow-sm border-l-4 border-yellow-500 cursor-pointer hover:bg-yellow-50 transition flex justify-between items-center">
-            <span><i class="fas fa-microchip mr-2 text-yellow-500"></i> <span data-i18n="tech_3">RTU 모니터링 시스템</span></span>
-            <i class="fas fa-broadcast-tower fa-4x"></i><br>실시간 원격제어 시연
+        <div onclick="openVideoModal('./전력원격감시제어 테스트영상.mp4')" class="tech-card">
+            <i class="fas fa-broadcast-tower fa-4x"></i>
+            <span>RTU 모니터링 시스템</span>
+            <p>실시간 원격제어 시연</p>
         </div>
     </div>
     <div class="cert-gallery">
-        <img src="건물일체형특허증.png" alt="특허1" onerror="this.src='https://via.placeholder.com/180x260?text=Patent+1'">
-        <img src="노지스마트팜영농형태양광특허증.png" alt="특허2" onerror="this.src='https://via.placeholder.com/180x260?text=Patent+2'">
-        <img src="스마트팜영농형태양광PCT.jpg" alt="특허3" onerror="this.src='https://via.placeholder.com/180x260?text=Patent+3'">
-        <img src="스마트팜태양광온실특허증.jpg" alt="특허4" onerror="this.src='https://via.placeholder.com/180x260?text=Patent+4'">
-        <img src="영농형태양광특허증.jpg" alt="특허" onerror="this.src='https://via.placeholder.com/180x260?text=Patent+5'">
-        <img src="전력원격감시제어특허증.jpg" alt="특허6" onerror="this.src='https://via.placeholder.com/180x260?text=Patent+6'">
+        <img src="./건물일체형특허증.png" alt="특허1" onerror="this.src='https://via.placeholder.com/180x260?text=Patent+1'">
+        <img src="./노지스마트팜영농형태양광특허증.png" alt="특허2" onerror="this.src='https://via.placeholder.com/180x260?text=Patent+2'">
+        <img src="./스마트팜영농형태양광PCT.jpg" alt="특허3" onerror="this.src='https://via.placeholder.com/180x260?text=Patent+3'">
+        <img src="./스마트팜태양광온실특허증.jpg" alt="특허4" onerror="this.src='https://via.placeholder.com/180x260?text=Patent+4'">
+        <img src="./영농형태양광특허증.jpg" alt="특허5" onerror="this.src='https://via.placeholder.com/180x260?text=Patent+5'">
+        <img src="./전력원격감시제어특허증.jpg" alt="특허6" onerror="this.src='https://via.placeholder.com/180x260?text=Patent+6'">
     </div>
 </section>
 
@@ -337,17 +335,30 @@
             <i class="fas fa-times"></i> 닫기
         </button>
     </div>
-    <div class="modal-content" id="modal-images">
-        </div>
+    <div class="modal-content" id="modal-images"></div>
+</div>
+
+<div id="video-modal" class="modal">
+    <div style="padding: 20px; text-align: right; position: fixed; top: 0; width:100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); z-index: 3010;">
+        <button onclick="closeVideoModal()" style="color:white; font-size:18px; cursor:pointer; background:var(--primary); border:none; padding: 12px 30px; border-radius: 50px; font-weight: 700;">
+            <i class="fas fa-times"></i> 닫기
+        </button>
+    </div>
+    <div class="modal-content" style="padding-top: 150px;">
+        <video id="video-player" controls style="width: 100%; max-width: 800px; border-radius: 15px; box-shadow: var(--shadow);">
+            <source src="" type="video/mp4">
+            브라우저가 비디오 태그를 지원하지 않습니다.
+        </video>
+    </div>
 </div>
 
 <script>
-    // 2. EmailJS 초기화
+    // 1. EmailJS 초기화
     (function() {
         emailjs.init("MeDdSDT130KNnGU5J");
     })();
 
-    // 3. 구글 번역 아이콘 설정 (영어 중심 표기)
+    // 2. 구글 번역 설정
     function googleTranslateElementInit() {
         new google.translate.TranslateElement({
             pageLanguage: 'ko',
@@ -355,14 +366,13 @@
             layout: google.translate.TranslateElement.InlineLayout.SIMPLE
         }, 'google_translate_element');
         
-        // 아이콘 텍스트 강제 변경 (English)
         setTimeout(() => {
             const gadget = document.querySelector('.goog-te-gadget-simple span');
             if(gadget) gadget.innerText = 'Language';
         }, 1000);
     }
 
-    // 5. 탄소크래딧 계산 공식 변경
+    // 3. 수익 계산 시뮬레이션
     async function calculateRevenue() {
         const countryData = document.getElementById('country-select').value.split(',');
         const [lat, lon, currency, rate, name] = countryData;
@@ -371,7 +381,6 @@
         const smpPerKwh = parseFloat(document.getElementById('smp-price').value);
         const carbonPerTon = parseFloat(document.getElementById('carbon-price').value);
 
-        // 설비용량 계산
         let capacityKW = (areaUnit === 'py') ? (areaValue / 6.18) : (areaValue / 20.43); 
 
         const display = document.getElementById('result-display');
@@ -386,16 +395,11 @@
             const validData = solarData.filter(v => v > 0);
             const avgSolar = validData.reduce((a, b) => a + b, 0) / validData.length;
 
-            // 공식 적용
-            // SMP 수익 = 용량(kW) * 일평균발전시간 * 365일 * 효율(0.8) * 단가
             const annualKWh = capacityKW * avgSolar * 365 * 0.8;
             const smpRevenue = annualKWh * smpPerKwh;
-            
-            // 탄소크래딧 = MWh단위발전량 * 0.4156 (Ton CO2 변환) * 톤당 단가
             const annualMWh = annualKWh / 1000;
             const carbonTon = annualMWh * 0.4156;
             const carbonRevenue = carbonTon * carbonPerTon;
-
             const totalRevenue = smpRevenue + carbonRevenue;
 
             let chartHtml = '';
@@ -435,30 +439,28 @@
         }
     }
 
-    // 1. 갤러리 로직 및 이미지 경로 최적화 (상위 폴더 image 경로 대응)
+    // 4. 갤러리 로직 (경로 수정됨)
     function openGallery() {
         const modal = document.getElementById('gallery-modal');
         const imgContainer = document.getElementById('modal-images');
         imgContainer.innerHTML = '';
         
-        // 이미지 경로 배열 (../image/ 폴더 기준)
+        // 이미지 경로 배열 (루트 디렉토리 기준)
         const images = [];
-        for(let i=1; i<=31; i++) images.push(`../image/${i}.jpg`);
-        for(let i=1; i<=16; i++) images.push(`../image/b${i}.jpg`);
+        for(let i=1; i<=31; i++) images.push(`./${i}.jpg`);
+        for(let i=1; i<=16; i++) images.push(`./b${i}.jpg`);
         
         images.forEach(src => {
             const img = document.createElement('img');
             img.src = src;
             img.loading = "lazy";
             img.alt = "시공 사례";
-            img.onerror = () => img.style.display = 'none'; // 이미지 없을 시 숨김
+            img.onerror = () => img.style.display = 'none'; 
             imgContainer.appendChild(img);
         });
         
         modal.style.display = "block";
         document.body.style.overflow = "hidden"; 
-        
-        // 뒤로가기 대응: 히스토리 스테이트 추가
         window.history.pushState({modal: "open"}, null, "");
     }
 
@@ -467,12 +469,30 @@
         document.body.style.overflow = "auto";
     }
 
-    // 뒤로가기 버튼 클릭 시 갤러리만 닫기
-    window.onpopstate = function(event) {
+    // 5. 비디오 모달 로직
+    function openVideoModal(videoSrc) {
+        const modal = document.getElementById('video-modal');
+        const player = document.getElementById('video-player');
+        player.src = videoSrc;
+        modal.style.display = "block";
+        document.body.style.overflow = "hidden";
+        player.play();
+    }
+
+    function closeVideoModal() {
+        const modal = document.getElementById('video-modal');
+        const player = document.getElementById('video-player');
+        player.pause();
+        modal.style.display = "none";
+        document.body.style.overflow = "auto";
+    }
+
+    window.onpopstate = function() {
         closeGallery();
+        closeVideoModal();
     };
 
-    // 2. 제안서 요청 폼 처리 (EmailJS)
+    // 6. EmailJS 폼 처리
     document.getElementById('contact-form').addEventListener('submit', function(event) {
         event.preventDefault();
         const btn = this.querySelector('button');
