@@ -1,6 +1,4 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
+<!DOCTYPE html><html lang="ko"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>부광솔라 | Bukwang Solar - Eco-Friendly Smart Farm</title>
@@ -34,6 +32,7 @@
             margin: 0; color: var(--text-main); 
             line-height: 1.8; background-color: var(--white);
             word-break: keep-all;
+            top: 0 !important; 
         }
 
         header { 
@@ -44,9 +43,23 @@
         }
         .logo { height: 60px; width: auto; object-fit: contain; }
 
-        #google_translate_element { transform: scale(1.2); transform-origin: right; }
-        .goog-te-gadget-simple { padding: 8px !important; border-radius: 8px !important; }
-        .goog-te-gadget-simple span { color: var(--secondary) !important; font-weight: bold !important; }
+        #google_translate_element { margin-left: auto; }
+        .goog-te-gadget-simple { 
+            padding: 8px 12px !important; 
+            border-radius: 12px !important; 
+            border: 1px solid #ddd !important;
+            background-color: white !important;
+            cursor: pointer;
+        }
+        .goog-te-gadget-simple span { 
+            color: var(--secondary) !important; 
+            font-weight: 600 !important;
+            font-size: 14px !important;
+        }
+        .goog-te-gadget-icon { display: none !important; }
+        .goog-logo-link { display: none !important; }
+        .goog-te-gadget { color: transparent !important; }
+        .goog-te-banner-frame.skiptranslate { display: none !important; }
 
         section { padding: 120px 10%; position: relative; }
         h2 { 
@@ -76,6 +89,7 @@
             text-align: center;
             position: relative; overflow: hidden;
             display: flex; flex-direction: column; align-items: center;
+            cursor: default;
         }
         .card::before {
             content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 6px; background: var(--primary);
@@ -109,6 +123,7 @@
             width: 100%; border-radius: 15px; font-size: 1.2rem; font-weight: 800;
             cursor: pointer; margin-top: 20px; letter-spacing: 0.5px;
             box-shadow: 0 10px 20px rgba(45, 140, 78, 0.2);
+            position: relative; z-index: 1;
         }
         .btn-calc:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: 0 15px 30px rgba(45, 140, 78, 0.3); }
 
@@ -127,26 +142,28 @@
             text-align: center; cursor: pointer; color: var(--secondary); font-weight: 700; 
             background: var(--white); padding: 30px; border-radius: 20px; box-shadow: var(--shadow);
             width: 280px; display: flex; flex-direction: column; align-items: center;
+            z-index: 5;
         }
         .tech-card:hover { transform: scale(1.05); color: var(--primary); }
-        .tech-card i { color: var(--primary); margin-bottom: 15px; }
+        .tech-card i { color: var(--primary); margin-bottom: 15px; pointer-events: none; }
         
         .cert-gallery { 
             display: flex; overflow-x: auto; gap: 20px; padding: 20px 10px; 
             scrollbar-width: thin; scrollbar-color: var(--primary) transparent;
         }
-        .cert-gallery::-webkit-scrollbar { height: 6px; }
-        .cert-gallery::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
-        .cert-gallery img { height: 260px; border: 1px solid #eee; border-radius: 12px; box-shadow: 5px 10px 20px rgba(0,0,0,0.05); background: white; cursor: zoom-in; }
+        .cert-gallery img { height: 260px; border: 1px solid #eee; border-radius: 12px; box-shadow: 5px 10px 20px rgba(0,0,0,0.05); background: white; cursor: zoom-in; flex-shrink: 0; }
 
+        /* 모달 PC 최적화 수정 */
         .modal { 
-            display: none; position: fixed; z-index: 3000; left: 0; top: 0; 
-            width: 100%; height: 100%; background-color: rgba(0,0,0,0.95); overflow-y: auto; 
+            display: none; position: fixed; z-index: 5000; left: 0; top: 0; 
+            width: 100%; height: 100%; background-color: rgba(0,0,0,0.9); overflow-y: auto; 
+            -webkit-overflow-scrolling: touch;
         }
         .modal-content { 
-            display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; padding: 100px 40px 60px; 
+            display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; padding: 120px 40px 60px; 
+            max-width: 1200px; margin: 0 auto;
         }
-        .modal-content img { width: 100%; max-width: 400px; height: 300px; object-fit: cover; border-radius: 15px; border: 2px solid rgba(255,255,255,0.1); }
+        .modal-content img { width: calc(33.333% - 20px); min-width: 300px; height: 250px; object-fit: cover; border-radius: 15px; border: 2px solid rgba(255,255,255,0.1); }
 
         footer { padding: 80px 10%; text-align: center; background: #1a1a1a; color: #999; }
         footer strong { color: var(--white); font-size: 1.2rem; }
@@ -158,15 +175,11 @@
             .tech-links { flex-direction: column; align-items: center; gap: 20px; }
             .tech-card { width: 100%; max-width: 350px; }
             .logo { height: 45px; }
+            .modal-content img { width: 100%; }
         }
-    </style>
-</head>
-<body>
-
-<header>
+    </style></head><body><header>
     <img src="./회사로그.png" alt="부광솔라" class="logo" onerror="this.src='https://via.placeholder.com/250x80?text=Bukwang+Solar+Logo'">
-    <div id="google_translate_element"></div>
-</header>
+    <div id="google_translate_element"></div></header>
 
 <section id="about">
     <div class="intro-text">
@@ -195,8 +208,7 @@
             <h3>친환경 스마트농업</h3>
             <p>신재생 에너지와 ICT 기술의 융합으로 농지의 훼손 없이 에너지와 식량을 동시에 생산하는 지속 가능한 농업을 제안합니다.</p>
         </div>
-    </div>
-</section>
+    </div></section>
 
 <section id="revenue">
     <h2>AI 글로벌 수익 시뮬레이션</h2>
@@ -270,8 +282,7 @@
         <div id="result-display">
             <p style="color:var(--text-sub);">조건을 입력하고 분석 버튼을 눌러주세요.</p>
         </div>
-    </div>
-</section>
+    </div></section>
 
 <section id="tech">
     <h2>보유 기술 및 특허</h2>
@@ -294,8 +305,7 @@
         <img src="./스마트팜태양광온실특허증.jpg" alt="특허4" onerror="this.src='https://via.placeholder.com/180x260?text=Patent+4'">
         <img src="./영농형태양광특허증.jpg" alt="특허5" onerror="this.src='https://via.placeholder.com/180x260?text=Patent+5'">
         <img src="./전력원격감시제어특허증.jpg" alt="특허6" onerror="this.src='https://via.placeholder.com/180x260?text=Patent+6'">
-    </div>
-</section>
+    </div></section>
 
 <section id="contact" style="background: var(--light-gray);">
     <div class="grid">
@@ -319,60 +329,56 @@
                 <i class="fas fa-external-link-alt"></i> 공식 네이버 블로그 방문
             </a>
         </div>
-    </div>
-</section>
+    </div></section>
 
 <footer>
     <p><strong>부광솔라(Bukwang Solar)</strong></p>
     <p><i class="fas fa-phone"></i> 042-584-5017 | <i class="fas fa-envelope"></i> bk_solar@naver.com</p>
     <p><i class="fas fa-map-marker-alt"></i> 대전광역시 서구 복수중로30 | 사업자등록번호 : 669 81 00792</p>
-    <p style="margin-top: 30px; font-size: 0.8rem; opacity: 0.5;">&copy; 2026 Bukwang Solar. All Rights Reserved.</p>
-</footer>
+    <p style="margin-top: 30px; font-size: 0.8rem; opacity: 0.5;">&copy; 2026 Bukwang Solar. All Rights Reserved.</p></footer>
 
 <div id="gallery-modal" class="modal">
-    <div style="padding: 20px; text-align: right; position: fixed; top: 0; width:100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); z-index: 3010;">
+    <div style="padding: 20px; text-align: right; position: sticky; top: 0; width:100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); z-index: 5010;">
         <button onclick="closeGallery()" style="color:white; font-size:18px; cursor:pointer; background:var(--primary); border:none; padding: 12px 30px; border-radius: 50px; font-weight: 700;">
             <i class="fas fa-times"></i> 닫기
         </button>
     </div>
-    <div class="modal-content" id="modal-images"></div>
-</div>
+    <div class="modal-content" id="modal-images"></div></div>
 
 <div id="video-modal" class="modal">
-    <div style="padding: 20px; text-align: right; position: fixed; top: 0; width:100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); z-index: 3010;">
+    <div style="padding: 20px; text-align: right; position: sticky; top: 0; width:100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); z-index: 5010;">
         <button onclick="closeVideoModal()" style="color:white; font-size:18px; cursor:pointer; background:var(--primary); border:none; padding: 12px 30px; border-radius: 50px; font-weight: 700;">
             <i class="fas fa-times"></i> 닫기
         </button>
     </div>
-    <div class="modal-content" style="padding-top: 150px;">
-        <video id="video-player" controls style="width: 100%; max-width: 800px; border-radius: 15px; box-shadow: var(--shadow);">
+    <div class="modal-content" style="padding-top: 50px;">
+        <video id="video-player" controls style="width: 100%; max-width: 900px; border-radius: 15px; box-shadow: var(--shadow); background: #000;">
             <source src="" type="video/mp4">
-            브라우저가 비디오 태그를 지원하지 않습니다.
         </video>
-    </div>
-</div>
+    </div></div>
 
 <script>
-    // 1. EmailJS 초기화
     (function() {
         emailjs.init("MeDdSDT130KNnGU5J");
     })();
 
-    // 2. 구글 번역 설정
     function googleTranslateElementInit() {
         new google.translate.TranslateElement({
-            pageLanguage: 'ko',
-            includedLanguages: 'en,ja,zh-CN,vi,th',
-            layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            pageLanguage: 'ko', 
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: true 
         }, 'google_translate_element');
         
-        setTimeout(() => {
-            const gadget = document.querySelector('.goog-te-gadget-simple span');
-            if(gadget) gadget.innerText = 'Language';
-        }, 1000);
+        const checkElement = setInterval(() => {
+            const translateSpan = document.querySelector('.goog-te-gadget-simple span');
+            if (translateSpan) {
+                translateSpan.innerText = 'Select Language';
+                clearInterval(checkElement);
+            }
+        }, 100);
+        setTimeout(() => clearInterval(checkElement), 10000);
     }
 
-    // 3. 수익 계산 시뮬레이션
     async function calculateRevenue() {
         const countryData = document.getElementById('country-select').value.split(',');
         const [lat, lon, currency, rate, name] = countryData;
@@ -384,7 +390,7 @@
         let capacityKW = (areaUnit === 'py') ? (areaValue / 6.18) : (areaValue / 20.43); 
 
         const display = document.getElementById('result-display');
-        display.innerHTML = `<div style="color:var(--primary)"><i class="fas fa-circle-notch fa-spin fa-2x"></i><br><br>NASA 기상 데이터를 동기화 중입니다...</div>`;
+        display.innerHTML = `<div style="color:var(--primary)"><i class="fas fa-circle-notch fa-spin fa-2x"></i><br><br>Analyzing NASA Meteorological Data...</div>`;
 
         try {
             const url = `https://power.larc.nasa.gov/api/temporal/monthly/point?parameters=ALLSKY_SFC_SW_DWN&community=RE&longitude=${lon}&latitude=${lat}&format=JSON&start=2023&end=2023`;
@@ -410,42 +416,40 @@
 
             display.innerHTML = `
                 <div style="color:var(--primary); font-weight:800; font-size:1.4rem; margin-bottom:15px;">
-                    <i class="fas fa-check-circle"></i> ${name} 지역 정밀 분석 리포트
+                    <i class="fas fa-check-circle"></i> ${name} Regional Analysis Report
                 </div>
                 <div class="solar-chart-mini">${chartHtml}</div>
                 <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 10px; text-align:left; max-width: 600px; margin: 0 auto;">
-                    <div class="data-badge">설치 용량: ${capacityKW.toFixed(1)} kW</div>
-                    <div class="data-badge">연간 발전량: ${annualMWh.toFixed(1)} MWh</div>
-                    <div class="data-badge">탄소 감축량: ${carbonTon.toFixed(2)} tCO2</div>
-                    <div class="data-badge">지역 일사량: ${avgSolar.toFixed(2)} h</div>
+                    <div class="data-badge">Capacity: ${capacityKW.toFixed(1)} kW</div>
+                    <div class="data-badge">Annual Gen: ${annualMWh.toFixed(1)} MWh</div>
+                    <div class="data-badge">Carbon Reduction: ${carbonTon.toFixed(2)} tCO2</div>
+                    <div class="data-badge">Solar Insolation: ${avgSolar.toFixed(2)} h</div>
                 </div>
                 <div style="margin-top:30px; padding:25px; background:#fff; border-radius:20px; box-shadow:0 5px 15px rgba(0,0,0,0.05);">
                     <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
-                        <span>발전 수익 (SMP)</span>
+                        <span>Generation Revenue (SMP)</span>
                         <strong>${Math.floor(smpRevenue).toLocaleString()} ${currency}</strong>
                     </div>
                     <div style="display:flex; justify-content:space-between; margin-bottom:15px; color:var(--primary);">
-                        <span>탄소배출권 수익 (Credit)</span>
+                        <span>Carbon Credit Revenue</span>
                         <strong>+ ${Math.floor(carbonRevenue).toLocaleString()} ${currency}</strong>
                     </div>
                     <div style="border-top:2px solid var(--primary-soft); margin-top:15px; padding-top:15px;">
-                        <span style="font-size:1rem; font-weight:600;">예상 연간 총 수익</span><br>
+                        <span style="font-size:1rem; font-weight:600;">Total Annual Revenue</span><br>
                         <strong style="color:var(--primary); font-size:2.4rem;">${Math.floor(totalRevenue).toLocaleString()} <small style="font-size:1.1rem;">${currency}</small></strong>
                     </div>
                 </div>
             `;
         } catch (e) {
-            display.innerHTML = "<div style='color:#e74c3c'>데이터 분석 중 오류가 발생했습니다.</div>";
+            display.innerHTML = "<div style='color:#e74c3c'>An error occurred during data analysis.</div>";
         }
     }
 
-    // 4. 갤러리 로직 (경로 수정됨)
     function openGallery() {
         const modal = document.getElementById('gallery-modal');
         const imgContainer = document.getElementById('modal-images');
         imgContainer.innerHTML = '';
         
-        // 이미지 경로 배열 (루트 디렉토리 기준)
         const images = [];
         for(let i=1; i<=31; i++) images.push(`./${i}.jpg`);
         for(let i=1; i<=16; i++) images.push(`./b${i}.jpg`);
@@ -454,14 +458,12 @@
             const img = document.createElement('img');
             img.src = src;
             img.loading = "lazy";
-            img.alt = "시공 사례";
-            img.onerror = () => img.style.display = 'none'; 
+            img.onerror = () => img.remove(); 
             imgContainer.appendChild(img);
         });
         
         modal.style.display = "block";
         document.body.style.overflow = "hidden"; 
-        window.history.pushState({modal: "open"}, null, "");
     }
 
     function closeGallery() {
@@ -469,14 +471,14 @@
         document.body.style.overflow = "auto";
     }
 
-    // 5. 비디오 모달 로직
     function openVideoModal(videoSrc) {
         const modal = document.getElementById('video-modal');
         const player = document.getElementById('video-player');
         player.src = videoSrc;
         modal.style.display = "block";
         document.body.style.overflow = "hidden";
-        player.play();
+        player.load();
+        player.play().catch(e => console.log("Auto-play blocked"));
     }
 
     function closeVideoModal() {
@@ -487,16 +489,18 @@
         document.body.style.overflow = "auto";
     }
 
-    window.onpopstate = function() {
-        closeGallery();
-        closeVideoModal();
+    // 외부 클릭 시 닫기 (PC 환경 필수)
+    window.onclick = function(event) {
+        if (event.target.classList.contains('modal')) {
+            closeGallery();
+            closeVideoModal();
+        }
     };
 
-    // 6. EmailJS 폼 처리
     document.getElementById('contact-form').addEventListener('submit', function(event) {
         event.preventDefault();
         const btn = this.querySelector('button');
-        btn.innerText = "전송 중...";
+        btn.innerText = "Sending...";
         btn.disabled = true;
 
         emailjs.send("service_23hd17n", "template_1h4x2yq", {
@@ -505,17 +509,14 @@
             message: document.getElementById('message').value,
             to_email: "bk_solar@naver.com"
         }).then(() => {
-            alert("제안서 요청이 성공적으로 전송되었습니다.");
+            alert("Your request has been sent successfully.");
             this.reset();
             btn.innerText = "제안서 및 상담 요청";
             btn.disabled = false;
         }, (err) => {
-            alert("전송에 실패했습니다: " + JSON.stringify(err));
-            btn.innerText = "다시 시도";
+            alert("Failed to send: " + JSON.stringify(err));
+            btn.innerText = "Retry";
             btn.disabled = false;
         });
     });
-</script>
-
-</body>
-</html>
+</script></body></html>
