@@ -278,7 +278,7 @@
                         <option value="52.37,4.89,EUR,1450,네덜란드(ESA)">ESA 기술센터(ESTEC)</option>
                         <option value="56.01,92.85,RUB,19,러시아(크라스노야르스크)">시베리아 관측센터</option>
                         <option value="23.63,-102.55,MXN,80,멕시코">멕시코 중앙 고원</option>
-                         <option value="-34.61,-58.37,ARS,1.6,아르헨티나(부에노스아이레스)">남미 기상 관측 거점</option>
+                        <option value="-34.61,-58.37,ARS,1.6,아르헨티나(부에노스아이레스)">남미 기상 관측 거점</option>
                         <option value="47.91,106.91,MNT,0.4,몽골">몽골</option>
                 </select>
             </div>
@@ -384,8 +384,8 @@
     </div></div>
 
 <script>
+    // [수정사항] 초기화 구문 보강
     (function() {
-        // Public Key 업데이트
         emailjs.init("EKZKrQa8dovHr1AI9");
     })();
 
@@ -526,22 +526,25 @@
     document.getElementById('contact-form').addEventListener('submit', function(event) {
         event.preventDefault();
         const btn = this.querySelector('button');
+        const originalText = btn.innerText;
         btn.innerText = "Sending...";
         btn.disabled = true;
 
-        // Service ID, Template ID 적용
+        // [수정사항] 전송 로직 안정화: Public Key를 명시적으로 세 번째 인자에 전달
         emailjs.send("service_23hd17n", "template_1h4x2yq", {
             from_name: document.getElementById('from_name').value,
             reply_to: document.getElementById('reply_to').value,
             message: document.getElementById('message').value,
             to_email: "bk_solar@naver.com"
-        }).then(() => {
+        }, "EKZKrQa8dovHr1AI9")
+        .then(() => {
             alert("Your request has been sent successfully.");
             this.reset();
-            btn.innerText = "제안서 및 상담 요청";
+            btn.innerText = originalText;
             btn.disabled = false;
         }, (err) => {
-            alert("Failed to send: " + JSON.stringify(err));
+            console.error("EmailJS Error Detail:", err);
+            alert("Failed to send: " + (err.text || "Unknown error"));
             btn.innerText = "Retry";
             btn.disabled = false;
         });
