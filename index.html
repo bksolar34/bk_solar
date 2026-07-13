@@ -70,11 +70,6 @@ h1,h2,h3,h4,p { margin: 0; }
   * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
 }
 
-/* ============================================================
-   반응형 공통 규칙 (PC / 노트북 / 태블릿 / 모바일)
-   컴포넌트별 세부 반응형 규칙은 각 컴포넌트의 <style> 블록 안에서
-   같은 방식(기본 규칙 뒤에 미디어쿼리를 이어붙이는 방식)으로 추가돼 있음.
-   ============================================================ */
 img, svg, canvas, video { max-width: 100%; }
 @media (max-width: 1200px) {
   body { font-size: 17px; }
@@ -90,11 +85,6 @@ img, svg, canvas, video { max-width: 100%; }
 <body>
 <div id="root"></div>
 
-<!-- 시스템 엔진 모듈 (요청 6: 항목별 시스템 엔진을 별도 .js 파일로 구성).
-     일반 <script src> 로 로드하므로 file:// 로 index.html을 직접 열어도
-     그대로 동작한다 (fetch/XHR과 달리 CORS 제약이 없음). 아래 순서대로
-     각 window.* 전역이 채워진 뒤, 그 다음 app-source(JSX)가 이를
-     참조한다. -->
 <script src="./js/branding-config.js"></script>
 <script src="./js/driver-db.js"></script>
 <script src="./js/protection-standards.js"></script>
@@ -102,19 +92,7 @@ img, svg, canvas, video { max-width: 100%; }
 <script src="./js/forecast-engine.js"></script>
 <script src="./js/remote-control-engine.js"></script>
 <script src="./js/inverter-fault-protocol.js"></script>
-<!-- i18n-engine.js(자체 무료 API 번역)는 제거함. 화면 전체를 빠짐없이
-     번역하려면 브라우저(Chrome) 내장 번역 기능을 쓰는 것이 훨씬 안정적이고
-     완전하다. 브라우저 번역은 <html lang="ko"> 속성을 보고 페이지가 한국어임을
-     인식해 렌더링된 DOM 텍스트 전체를 자동으로 번역하므로, 아래처럼 일부
-     문구만 <T>로 감싸 무료 API로 개별 번역하던 방식보다 훨씬 넓은 범위를
-     커버한다(예전 방식은 <T>로 감싸지 않은 대다수의 한글이 번역되지 않고
-     남는 문제가 있었음). -->
 
-<!-- 안전망: 위 5개 js/*.js 파일이 어떤 이유로든(파일 경로 누락, 브라우저
-     보안 설정 등) 로드되지 못했을 경우에도 화면이 완전히 멈추지 않도록,
-     아직 정의되지 않은 전역만 최소 기본값으로 채운다. 파일이 정상
-     로드됐다면 window.X는 이미 채워져 있으므로 아래 코드는 아무 것도
-     하지 않는다 (기존 값을 절대 덮어쓰지 않음). -->
 <script>
   window.BRAND_CONFIG = window.BRAND_CONFIG || { nameKo: "부광솔라", name: "BUKWANG SOLAR", tagline: "Smart Safety Plants", logo: "./assets/bukwang-logo.png" };
   window.DRIVER_DB = window.DRIVER_DB || {};
@@ -222,24 +200,6 @@ img, svg, canvas, video { max-width: 100%; }
 <script type="text/plain" id="app-source">
 const { useState, useEffect, useRef, useMemo } = React;
 
-/* =========================================================================
-   0) 다국어 번역: 자체 무료 API(Google/MyMemory) 번역은 완전히 걷어냄.
-   이유:
-     - <T>로 감싼 일부 문구(14곳)만 번역 대상이 되어, 감싸지 않은 대다수의
-       한글 텍스트(수백 곳)는 언어를 바꿔도 그대로 한글로 남는 문제가 있었음
-       -> "영어로 바꿔도 한글이 더 많다"는 문제의 직접적인 원인.
-     - 비공식 무료 엔드포인트 호출이 실패하면(CORS, 네트워크 차단 등) 그
-       자리에서 조용히 원문(한글)으로 되돌아가 번역 자체가 안 되는 것처럼
-       보였음.
-   대안: <html lang="ko">를 유지한 채 페이지의 모든 텍스트를 항상 순수
-   한국어 DOM으로만 렌더링한다. 이렇게 하면 크롬 주소창의 번역 아이콘(또는
-   우클릭 -> "한국어(으)로 번역")을 눌렀을 때, 크롬 내장 번역 엔진이 렌더링된
-   DOM 텍스트 전체를 훑어 빠짐없이 번역해준다 -- 일부 문구만 골라 번역하던
-   예전 방식보다 훨씬 넓고 안정적으로 "화면 전체"가 번역된다.
-   T는 과거 코드와의 호환을 위해 남겨두되, 이제는 그냥 원문을 그대로
-   렌더링하는 통과(pass-through) 컴포넌트다.
-   ========================================================================= */
-
 function T({ children }) {
   return children;
 }
@@ -325,20 +285,6 @@ function clusterByCategory(items) {
   return buckets;
 }
 
-/* =========================================================================
-   2) DATA STORE -- a real (if small) client-side data layer, backed by
-   the browser's localStorage. This replaces the earlier Node/Express/
-   Prisma/PostgreSQL backend attempt: no server process, no database,
-   no Docker -- just functions that read/write a JSON blob in the
-   browser, so the whole system still runs by double-clicking this one
-   file. State (like packs added/removed on the digital twin) now
-   survives a page refresh, which plain in-memory mock data could not.
-
-   Functions below mirror what the earlier server-side API endpoints
-   did (getSite, getControlMode, addPack, removePack, ...), just
-   implemented as local reads/writes instead of HTTP calls to a DB.
-   ========================================================================= */
-
 const STORE_KEY = "universal_ems_store_v1";
 
 // Real-world ESS container/cabinet product sizes. kW is each unit's
@@ -381,12 +327,7 @@ function seedState() {
         { id: "inverter_06", name: "inverter_06", ratedKw: 34, outputPct: 30, pfPct: 10, freqOffsetHz: 0.5, on: true },
       ],
     },
-    controlLogs: [],
-    // 증상별 조치 기록 (요청: "제어기록에는 증상에 의한 조치기록을").
-    // controlLogs가 "세트포인트(출력%/역률%/주파수) -> 판정결과"를
-    // 기준으로 자동 산출되는 로그라면, 이쪽은 IEPVT-22-G2 매뉴얼 4.5절
-    // FAULT 코드가 실제로 발생했을 때 사람이 어떤 조치를 했는지 남기는
-    // 이력이다. js/fault-codes.js의 코드 표를 기준으로 기록한다.
+    controlLogs: [],    
     faultActionLogs: [],
     location: null, // set via geospatial screen's "주소로 설정" action
     googleApiKey: "", // optional: if set, geocoding upgrades to Google's API
@@ -484,34 +425,22 @@ const Store = {
   setNetMeteringEquipment(value) {
     _state.netMeteringEquipment = value;
     persist(_state);
-  },
-  // 보호계전기 정정값 -- 기본값은 한전 기술기준(js/protection-standards.js)
-  // 이지만, 하드웨어 추상화 설정 화면에서 현장 담당자가 직접 조정한
-  // 값으로 덮어써진다. GridProtectionPanel(태양광/ESS 모니터링)이 이
-  // 값을 그대로 읽어 실시간 판정에 사용한다.
+  },  
   getRelaySetpoints: () => _state.relaySetpoints ?? window.ProtectionEngine.getDefaultSetpoints(),
   setRelaySetpoints(next) {
     _state.relaySetpoints = next;
     persist(_state);
-  },
-  // 발전소 원격 제어 (Dr. Bksolar 관리자 매뉴얼 23~26p 화면 구조).
-  // 메인/인버터 차단기 상태와 인버터별 제어 설정값을 보관한다.
+  },  
   getPlantControl: () => _state.plantControl,
   setPlantControl(next) {
     _state.plantControl = next;
     persist(_state);
-  },
-  // 원격 제어 조작 기록 -- 요청 4/5: 비정상 전압/주파수 분리시간 기준을
-  // "표시만" 하지 않고, 실제 제어 결과 판정에 쓴 뒤 그 판정 결과를
-  // 구조화된 데이터로 남긴다. 추후 이상탐지/예측 모델(예: YOLO 계열
-  // 패턴 인식 파이프라인) 학습용 빅데이터의 원천이 되는 로그다.
+  },  
   getControlLogs: () => _state.controlLogs ?? [],
   addControlLog(entry) {
     _state.controlLogs = [entry, ...(_state.controlLogs ?? [])].slice(0, 200); // 최근 200건 보관
     persist(_state);
-  },
-  // 증상별 조치 기록 (FAULT 코드 -> 실제 조치) -- 발전소 원격 제어
-  // 화면의 "인버터 고장(FAULT) 코드별 제어 목록"에서 남긴다.
+  },  
   getFaultActionLogs: () => _state.faultActionLogs ?? [],
   addFaultActionLog(entry) {
     _state.faultActionLogs = [entry, ...(_state.faultActionLogs ?? [])].slice(0, 200);
@@ -812,14 +741,6 @@ function Panel({ title, eyebrow, action, children }) {
   );
 }
 
-// 요청 2번: 부광솔라 홈페이지(website2/website/js/main.js)의 "문의" 폼이
-// 쓰는 로직/소스를 그대로 재사용한 제보 기능. 홈페이지 쪽은
-//   emailjs.send('service_23hd17n', 'template_1h4x2yq',
-//     { from_name, reply_to, message, to_email: 'bk_solar@naver.com' },
-//     'EKZKrQa8dovHr1AI9')
-// 형태로 이메일을 보내는데, 이 EMS 대시보드에서도 동일한 EmailJS
-// 서비스/템플릿/퍼블릭 키를 그대로 사용해 "수정 및 보완내용 제보"를
-// 같은 창구(bk_solar@naver.com)로 보낸다.
 function FeedbackModal({ onClose }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -890,10 +811,7 @@ function FeedbackModal({ onClose }) {
 function TopBar({ vpp, controlMode, alarmCounts, showMenuButton, onToggleSidebar }) {
   const [now, setNow] = useState(new Date());
   useEffect(() => { const t = setInterval(() => setNow(new Date()), 1000); return () => clearInterval(t); }, []);
-  const [showFeedback, setShowFeedback] = useState(false);
-  // 모바일 화면에서는 KPI/알람 상세 행(.topbar)을 기본으로 접어두고,
-  // 이 상태를 눌러야만 펼쳐지도록 한다 (좁은 화면에서 고정 상단 영역이
-  // 화면의 2/3 가까이 차지해 실제 콘텐츠가 보이지 않던 문제 해결).
+  const [showFeedback, setShowFeedback] = useState(false);  
   const [statusOpen, setStatusOpen] = useState(false);
   const brand = window.BRAND_CONFIG ?? { name: "BUKWANG SOLAR", nameKo: "부광솔라", tagline: "Smart Safety Plants", logo: "./assets/bukwang-logo.png" };
   const hasAlarm = alarmCounts.fatal > 0 || alarmCounts.critical > 0 || alarmCounts.warn > 0;
@@ -975,12 +893,7 @@ function TopBar({ vpp, controlMode, alarmCounts, showMenuButton, onToggleSidebar
         .menu-toggle-btn { display: none; }
         .status-toggle-btn { display: none; }
         .status-backdrop { display: none; }
-
-        /* 좁은 화면(태블릿 이하): 브랜드 행은 항상 한 줄로 압축 유지하고,
-           화면 폭에 비해 덜 중요한 요소(번역 안내, 영문 브랜드명, 사이트명,
-           태그라인, 제보 버튼 문구)는 숨겨서 남은 요소가 잘리지 않게 함.
-           발전소 화면(showMenuButton=true)에서는 사이드바를 열고 닫는
-           햄버거 버튼을 노출. */
+        
         @media (max-width: 900px) {
           .menu-toggle-btn {
             display: inline-flex; align-items: center; justify-content: center;
@@ -994,11 +907,7 @@ function TopBar({ vpp, controlMode, alarmCounts, showMenuButton, onToggleSidebar
           .brand-name { font-size: 15px; }
           .brand-badge-trial { margin-left: 5px; padding: 1px 6px; font-size: 9px; }
           .fb-open-btn { display: none; }
-
-          /* 상단 KPI/알람 행(.topbar)은 기본으로 접어서(display:none)
-             핵심 콘텐츠 공간을 확보하고, "상태" 버튼을 눌렀을 때만
-             브랜드 행 아래에 드롭다운 형태로 나타난다. 고정 높이만큼
-             화면을 항상 잡아먹지 않도록 fixed 오버레이로 띄운다. */
+          
           .status-toggle-btn {
             display: inline-flex; align-items: center; gap: 6px;
             padding: 5px 10px; border-radius: var(--radius);
@@ -1076,11 +985,7 @@ function Sidebar({ usage, slug, open, onClose }) {
         .nav-item.indented { margin-left: 10px; }
         .nav-item:hover { background: rgba(255,255,255,0.07); color: var(--sidebar-text); }
         .nav-item.active { background: #2563eb; color: #ffffff; font-weight: 700; border-left: 3px solid #93c5fd; box-shadow: 0 2px 6px rgba(37,99,235,0.3); }
-
-        /* 태블릿/모바일: 사이드바를 화면 폭 안에 밀어넣는 대신
-           좌측에서 슬라이드 인/아웃되는 오버레이(off-canvas)로 전환.
-           그렇지 않으면 260px 고정폭 때문에 좁은 화면에서 본문이
-           찌그러지거나 가로로 잘려 보이는 문제가 생김. */
+        
         @media (max-width: 900px) {
           .sidebar {
             position: fixed;
@@ -1160,10 +1065,6 @@ function roundTo(v, decimals) {
   return Math.round(v * p) / p;
 }
 
-// 로그를 JSON 파일로 다운로드한다. 이 앱은 브라우저에서만 동작하는
-// 정적 페이지라 서버 없이 실제 파일시스템에 직접 쓸 수는 없으므로,
-// "내보내기" 버튼으로 JSON을 내려받아 사용자가 로컬 data/ 폴더에
-// 보관하도록 한다 (요청 3번: "별도의 data 폴더에 기록").
 function exportLogAsFile(entries, baseName) {
   const stamp = new Date().toISOString().slice(0, 10);
   const blob = new Blob([JSON.stringify(entries, null, 2)], { type: "application/json" });
@@ -1177,9 +1078,6 @@ function exportLogAsFile(entries, baseName) {
   URL.revokeObjectURL(url);
 }
 
-// 숫자 입력 옆에 +/- 버튼을 붙인 공용 컴포넌트 (요청: "인버터별 개별
-// 차단기 및 개별제어에도 +,- 버튼 생성하고 연동"). 인버터 개별 제어의
-// 출력제어(%)/역률(%)/주파수변경(Hz) 입력에서 재사용한다.
 function NumberStepper({ value, onChange, step = 1, min, max, decimals = 0 }) {
   function clamp(v) {
     let x = roundTo(v, decimals);
@@ -1254,23 +1152,6 @@ function Toggle({ checked, onChange, onLabel, offLabel }) {
   );
 }
 
-/**
- * GridProtectionPanel -- 요청 2/3에 대한 핵심 구현.
- *
- * 한전 「분산형전원 배전계통 연계 기술기준」의 전압/주파수 분리시간,
- * 단독운전 방지, 재병입 지연, 역률, 직류유입 제한을 "참고용 문서 화면"이
- * 아니라, 태양광/ESS 모니터링 화면에서 실시간으로 판정하는 살아있는
- * 로직으로 붙여넣은 공용 컴포넌트. SolarPage/EssPage 양쪽에서 재사용한다.
- *
- * - 계통전압(%)·주파수(Hz)는 driftValue로 미세하게 흔들리다가, 데모/현장
- *   테스트 목적으로 주기적으로 짧게 기준을 벗어나도록 만들어 실제 보호
- *   로직이 살아있음을 보여준다 (실제 배포 시에는 이 부분만 실계측값
- *   구독으로 교체하면 됨).
- * - window.ProtectionEngine으로 매 tick 판정하고, 기준을 벗어나면
- *   Store.addAlarm으로 실제 알람을 생성한다 (중복 생성은 방지).
- * - 정정값은 Store.getRelaySetpoints() -- 즉 하드웨어 추상화 설정 화면
- *   에서 조정한 값이 곧바로 이 판정에 반영된다.
- */
 function GridProtectionPanel({ systemLabel, deviceName }) {
   const tick = useRealtimeTick(2000);
   const setpoints = Store.getRelaySetpoints();
@@ -1361,15 +1242,6 @@ function GridProtectionPanel({ systemLabel, deviceName }) {
   );
 }
 
-/**
- * PhaseVectorPanel -- 실시간 3상 벡터도 (현재 vs 1시간 전 비교).
- *
- * 원격 제어(발전소 원격 제어 화면)를 실행하기 전에 계통 상태가 정상
- * 범위인지 눈으로 바로 확인할 수 있도록, 3상 전압/전류를 벡터도로
- * 그려서 "현재"와 "1시간 전"을 나란히 비교한다 (Dr. Bksolar 매뉴얼
- * 21p "3상 벡터도" 화면과 동일한 구성). 상계용/발전용/ESS전용 모두
- * 발전소 원격 제어 화면 최상단에서 확인할 수 있다.
- */
 function computePhaseVectors(tick) {
   // 균형 3상: 상별 120도 위상차. 전압/전류 크기와 위상각(역률)에
   // 약간의 흔들림을 줘서 "실측값처럼" 보이게 한다.
@@ -1443,9 +1315,7 @@ function PhaseVectorPanel({ usage }) {
   const tick = useRealtimeTick(2000);
   const now = computePhaseVectors(tick);
   const hourAgo = computePhaseVectors(tick - 1800); // 2초 간격 기준 1800틱 = 1시간 전 스냅샷
-  const maxV = 260, maxI = 180;
-  // 상계용(NET_METERING)은 실제로 단상 계통으로 연계되는 경우가 대부분이므로
-  // A상 전압/전류만 표시한다 (매뉴얼 21p "단상일 경우 A상만 표시"와 동일 규칙).
+  const maxV = 260, maxI = 180;  
   const isSinglePhase = usage === "NET_METERING";
 
   const rows = isSinglePhase
@@ -1652,19 +1522,9 @@ function EssPage() {
   const soh = driftValue(97.8, tick, 0.3);
   const cellTemp = driftValue(31.2, tick, 1.2);
   const flowKw = driftValue(420, tick, 60);
-  const isDischarging = flowKw >= 0;
-  // 하이브리드 PV+ESS 구성: 태양광 패널 -> (충전측 PCS) -> ESS PACK ->
-  // (방전측 PCS) -> 계량기/배전반 -> D/L. 발전용(SolarPage: 패널->인버터->
-  // 양방향계량기/배전반->D/L)과는 구조 자체가 다르므로, 같은 FlowDiagram
-  // 컴포넌트를 재사용하더라도 노드 구성과 단계별 지표는 ESS 전용으로
-  // 완전히 별도 정의한다.
+  const isDischarging = flowKw >= 0;  
   const pvOutputKw = Math.max(0, driftValue(150, tick, 45));
-  const pvIrradiance = Math.max(0, driftValue(620, tick, 120));
-  // 상계용/ESS전용 구성에서는 태양광 패널(어레이)의 출력이 PCS(충전측)로
-  // 바로 들어가는 DC 전력이다 (계통에 바로 나가는 AC가 아님 -- AC 변환은
-  // 방전측 PCS 이후에 일어난다). 그동안 "kW"로만 표기되어 있어 이 지점이
-  // DC인지 AC인지 화면만으로는 구분이 안 됐으므로, 여기서부터 명시적으로
-  // "DC"임을 표기한다 (kWdc 단위 표기 + DC 전압 지표 추가).
+  const pvIrradiance = Math.max(0, driftValue(620, tick, 120));  
   const pvDcVoltage = driftValue(780, tick, 15);
 
   // 6-stage chain: 태양광 패널 -> PCS(충전) -> ESS PACK -> PCS(방전) -> 계량기/배전반 -> D/L
@@ -2021,21 +1881,13 @@ function OsmMap3D({ latitude, longitude, layer }) {
     });
     map.addControl(new maplibregl.NavigationControl(), "top-right");
     new maplibregl.Marker({ color: "#2563eb" }).setLngLat([longitude, latitude]).addTo(map);
-    // 건물뿐 아니라 지형(경사/고도)도 3D로 솟아오르게 하기 위한 DEM
-    // terrain 연결. 스타일이 완전히 로드된 뒤(source 등록 가능해진 뒤)에
-    // 실행해야 하므로 "load" 이벤트를 기다린다. 2D 래스터 레이어(osm/
-    // cyclosm)에는 terrain을 걸지 않는다 (평면 지도 위의 지형 왜곡은
-    // 오히려 지도를 읽기 어렵게 만들기 때문).
+    
     if (layerDef.terrain) {
       map.on("load", () => {
         try {
           if (!map.getSource("terrainDem")) map.addSource("terrainDem", TERRAIN_DEM_SOURCE);
           map.setTerrain({ source: "terrainDem", exaggeration: 1.5 });
-
-          // DEM만 걸면 지도가 울퉁불퉁해지긴 해도 표면 색은 기존 스타일
-          // 배경색 그대로라 "여기가 지형이다"가 잘 안 보인다(건물과 색이
-          // 비슷해 구분 불가 문제). 지형에 음영(hillshade)을 입혀 표고
-          // 변화 자체가 눈에 보이는 질감으로 드러나게 한다.
+          
           const firstLayerId = map.getStyle().layers?.[0]?.id;
           if (!map.getLayer("terrain-hillshade")) {
             map.addLayer(
@@ -2053,11 +1905,7 @@ function OsmMap3D({ latitude, longitude, layer }) {
               firstLayerId
             );
           }
-
-          // 건물(fill-extrusion) 레이어는 지형과 뚜렷이 구분되는 색으로
-          // 강조한다. OpenFreeMap 'liberty' 스타일의 실제 레이어 id를
-          // 하드코딩하지 않고 type으로 찾아서, 스타일 버전이 바뀌어도
-          // 안전하게 동작하도록 했다.
+          
           (map.getStyle().layers || []).forEach((l) => {
             if (l.type === "fill-extrusion") {
               try {
@@ -2066,10 +1914,7 @@ function OsmMap3D({ latitude, longitude, layer }) {
               } catch (e2) { /* 표현식으로 고정된 일부 레이어는 무시 */ }
             }
           });
-
-          // 하늘/대기 레이어를 추가하면 지형 고저차가 실루엣만으로도
-          // 눈에 훨씬 잘 들어온다 (그림자/일조 분석 화면과 연결되는
-          // 맥락이므로 태양광 부지 경사도를 직관적으로 보여주는 데 도움).
+          
           if (typeof map.setSky === "function") {
             map.setSky({ "sky-color": "#87ceeb", "sky-horizon-blend": 0.5, "horizon-color": "#ffffff", "horizon-fog-blend": 0.5, "fog-color": "#e9edf3", "fog-ground-blend": 0.5 });
           }
@@ -2085,9 +1930,6 @@ function OsmMap3D({ latitude, longitude, layer }) {
   return <div ref={containerRef} style={{ width: "100%", height: "100%" }} />;
 }
 
-// 장애물 고도각(추상적인 도(°) 숫자)을 사람이 바로 이해할 수 있는
-// 표현으로 변환한다 -- "3D 지형 및 음영 분석이 뭔 소리인지 모르겠다"는
-// 피드백에 대한 대응으로, 숫자 하나도 그냥 두지 않고 말로 풀어준다.
 function obstructionDescription(angle) {
   if (angle <= 5) return "거의 없음 (탁 트인 부지)";
   if (angle <= 15) return "낮은 담장/나무 수준";
@@ -2106,9 +1948,7 @@ function GeospatialPage() {
   const [mapLayer, setMapLayer] = useState("osm3d");
   const [googleApiKey, setGoogleApiKeyState] = useState(Store.getGoogleApiKey());
   const [showApiKeyField, setShowApiKeyField] = useState(false);
-
-  // ---- 손실률 계산 프레임워크 입력값 (요청: 종단/횡단 분석, 지형 경사,
-  // 어레이 간 이격거리에 따른 발전량 수정, 설비 높이, 하단부 경작 여부) ----
+  
   const [analysisAxis, setAnalysisAxis] = useState("longitudinal"); // "longitudinal"(종단, 전후열) | "transverse"(횡단, 좌우열)
   const [slopeDir, setSlopeDir] = useState("flat"); // "flat" | "south" | "north" -- 부지가 남향/북향 경사인지
   const [slopeDeg, setSlopeDeg] = useState(0); // 경사도(°)
@@ -2178,19 +2018,10 @@ function GeospatialPage() {
     const lossPct = daylight.length ? (shaded.length / daylight.length) * 100 : 0;
     return { hours, lossPct, daylightHours: daylight.length, blockedHours: shaded.length };
   }, [location, obstruction]);
-
-  // ---- 손실률 계산 프레임워크 --------------------------------------------
-  // 지형 경사, 자전축에 의한 태양 입사각(연중 변화, solarAltitudeDeg가 이미
-  // 반영), 기상자료 구름에 의한 그림자(6시간 단위), 어레이 간 이격거리에
-  // 따른 자기 그림자(종단/횡단), 하단부 영농형 구성까지 종합해 발전량
-  // 손실률을 산출하는 틀이다. 실제 LIDAR/BIM 기반 정밀 음영 시뮬레이션과
-  // 달리, 각 요인을 단순화한 물리 근사식으로 계산한 뒤 합산하는 "추정
-  // 프레임워크"임을 명시한다 (요청 3번: "손실률을 계산할 수 있는 틀").
+  
   const lossBreakdown = useMemo(() => {
     if (!location) return null;
-
-    // 1) 지평선 장애물 손실 -- 지형이 남향 경사면 지평선이 더 낮아 보여
-    //    장애물 각이 실질적으로 줄고, 북향 경사면 반대로 늘어난다.
+    
     const slopeAdjust = slopeDir === "south" ? -slopeDeg : slopeDir === "north" ? slopeDeg : 0;
     const effectiveObstruction = Math.max(0, obstruction + slopeAdjust);
     const today = new Date();
@@ -2202,22 +2033,12 @@ function GeospatialPage() {
     const daylight = hours.filter((r) => r.altitude > 0);
     const horizonBlocked = daylight.filter((r) => r.altitude < effectiveObstruction);
     const horizonLossPct = daylight.length ? (horizonBlocked.length / daylight.length) * 100 : 0;
-
-    // 2) 어레이 자기 그림자(self-shading) -- 종단(전후열)은 rowPitch,
-    //    횡단(좌우열)은 colPitch를 쓴다. 앞 어레이(또는 옆 어레이)가
-    //    설비 높이(structureHeightM)만큼 시야를 가리는 임계 고도각을
-    //    atan(높이/이격거리)로 근사하고, 그 각도보다 태양이 낮은
-    //    시간대를 "자기 그림자에 의한 손실"로 계산한다.
+    
     const pitch = analysisAxis === "longitudinal" ? rowPitchM : colPitchM;
     const criticalAngleDeg = pitch > 0 ? (Math.atan(structureHeightM / pitch) * 180) / Math.PI : 0;
     const selfShadedHours = daylight.filter((r) => r.altitude < criticalAngleDeg + effectiveObstruction);
     const selfShadingLossPct = daylight.length ? (selfShadedHours.length / daylight.length) * 100 : 0;
-
-    // 3) 구름에 의한 손실 (기상자료, 6시간 단위: 00/06/12/18시) --
-    //    Open-Meteo 시간별 cloudcover(%)를 6시간 간격으로 샘플링해
-    //    평균을 낸 뒤, 대략적인 일사량 감쇠 계수(0.75)를 곱한다 --
-    //    구름량(%)과 일사 손실(%)이 1:1은 아니지만 실무적으로 널리
-    //    쓰이는 근사치다.
+    
     let cloudLossPct = 0;
     let cloudSamples = [];
     if (weather && weather.hourly && weather.hourly.time && weather.hourly.cloudcover) {
@@ -2231,17 +2052,11 @@ function GeospatialPage() {
         cloudLossPct = avgCloud * 0.75;
       }
     }
-
-    // 4) 하단부 영농형(경작) 구성 -- 작물에 빛을 나눠주도록 설계된
-    //    구조라면 그만큼 발전 손실이 발생한다. 방목형/미사용은 광학적
-    //    손실이 없다(설비 높이 규정만 별도 확인 필요).
+    
     const agriLossPct = underPanelUse === "crop" ? agriTransmitPct : 0;
 
     const totalLossPct = Math.min(95, horizonLossPct + selfShadingLossPct + cloudLossPct + agriLossPct);
-
-    // 시각화용: 오늘 태양 남중고도(정오 근처 최고 고도) -- 임계각과 비교해
-    // "지금 이 이격거리/높이 조합이면 정오에도 그림자에 걸리는지"를
-    // 다이어그램에서 바로 보여주기 위함.
+    
     const noonSample = hours.reduce((best, r) => (r.altitude > (best?.altitude ?? -999) ? r : best), null);
     const noonAltitudeDeg = noonSample ? noonSample.altitude : 0;
 
@@ -2432,11 +2247,7 @@ function GeospatialPage() {
             </button>
           </div>
 
-          {(() => {
-            // 종단/횡단 자기 그림자 단면도 -- 이격거리(pitch)와 설비 높이가
-            // 만드는 임계각(criticalAngleDeg)을 실제 각도 그대로 그려서,
-            // "지금 이 간격이면 정오에도 그림자에 걸리는지"를 한눈에 보여준다.
-            // (요청 4번: "종단분석과 횡단분석을 시각화하면 좋겠다")
+          {(() => {            
             const pitch = Math.max(0.3, lossBreakdown.pitchUsed);
             const height = Math.max(0.2, structureHeightM);
             const W = 560, H = 220, groundY = 175, marginL = 60;
@@ -2551,14 +2362,6 @@ function GeospatialPage() {
   );
 }
 
-/**
- * AdaptivePage -- 실시간 예측 보정 엔진 (/forecasting/adaptive)
- *
- * 이 화면이 사용하는 예측 보정 알고리즘은 자체 개발한 AI 학습 모델
- * 기반이며, 알고리즘/파라미터/학습 데이터 구성은 영업비밀에 해당한다.
- * 따라서 상세 계산 과정(3-Way 매칭 표, 보정계수 산출 로직 등)은 화면에
- * 노출하지 않고, 엔진의 가동 상태만 표시하는 공지 화면으로 정리한다.
- */
 function AdaptivePage() {
   const location = Store.getLocation();
   const tick = useRealtimeTick(2000);
@@ -2614,21 +2417,6 @@ function AdaptivePage() {
    5e) CONTROL GROUP DETAIL SCREENS
    ========================================================================= */
 
-/**
- * PowerPlantControlPage -- 발전소 원격 제어 (/control/plant)
- *
- * Dr. Bksolar 관리자 매뉴얼 23~26p의 화면을 그대로 구현한다:
- *   ① 발전소 메인 차단기 ON/OFF (전체 차단)
- *   ② 발전소 인버터 차단기 전체 ON/OFF
- *   ③ 인버터 개별 ON/OFF
- *   ④ 인버터별 원격 조건 제어 (유효전력%, 역률%, 주파수변경Hz)
- *   ⑤ 제어 결과 산출 (유효전력 제어 / 역률 제어 / 주파수 제어 3개 표)
- *
- * 요청 4번의 핵심: ⑤번 결과, 특히 [주파수 제어] 표의 "연계유지여부"는
- * 고정된 문서 수치가 아니라 window.ProtectionEngine(한전 계통연계
- * 기술기준 판정 엔진)을 실시간 호출한 결과이며 (js/remote-control-engine.js
- * 참고), 결과가 나올 때마다 Store.addControlLog로 구조화 기록을 남긴다.
- */
 function PowerPlantControlPage({ usage }) {
   const [plant, setPlant] = useState(Store.getPlantControl());
   const [resultFor, setResultFor] = useState(null); // 결과창을 띄운 인버터 id
@@ -2638,15 +2426,7 @@ function PowerPlantControlPage({ usage }) {
   const logs = Store.getControlLogs();
   const faultLogs = Store.getFaultActionLogs();
   const [justLoggedId, setJustLoggedId] = useState(null); // 방금 기록됨 표시(잠깐 하이라이트)
-
-  // ---- 이벤트 반응형 고장(FAULT) 감지 --------------------------------
-  // 이전 버전처럼 19개 코드를 항상 나열하지 않는다. 실제로 인버터에
-  // 고장이 "발생했을 때만" 카드가 뜨는 이벤트 구동 방식으로 바꿨다
-  // (요청 1/3번). 표준화된 js/inverter-fault-protocol.js를 통해
-  // 제조사(vendor)와 무관하게 표준 코드로 해석한다 -- 이 발전소의
-  // 인버터가 전부 이노일렉트릭(INO)이라고 가정한 데모용 발생 패턴이며,
-  // 실제 배포 시에는 이 부분만 실제 인버터 통신에서 올라오는 원본
-  // 코드로 교체하면 된다 (해석 로직/화면은 그대로 재사용됨).
+ 
   const tick = useRealtimeTick(3000);
   const activeFaults = useMemo(() => {
     const vendor = "INO";
@@ -2664,11 +2444,7 @@ function PowerPlantControlPage({ usage }) {
     });
     return out;
   }, [tick, plant.inverters]);
-
-  // 출력제어(%)/역률(%)/주파수변경(Hz)은 입력하는 즉시 반영되지 않는다.
-  // 매뉴얼상 실제 현장 제어 흐름과 동일하게, 입력은 "임시값(draft)"으로만
-  // 남고 [적용] 버튼을 눌러 확인창까지 거쳐야 실제 인버터 설정
-  // (plant.inverters, Store)에 반영된다.
+  
   const [drafts, setDrafts] = useState(() =>
     Object.fromEntries(plant.inverters.map((i) => [i.id, { outputPct: i.outputPct, pfPct: i.pfPct, freqOffsetHz: i.freqOffsetHz }]))
   );
@@ -2708,11 +2484,7 @@ function PowerPlantControlPage({ usage }) {
   function updateDraft(id, field, value) {
     setDrafts((prev) => ({ ...prev, [id]: { ...prev[id], [field]: value } }));
   }
-
-  // 인버터별 개별 차단기 목록에서 인버터를 추가/제거한다. plant.inverters는
-  // "인버터별 개별 차단기"와 "인버터 개별 제어" 두 패널이 같은 배열을
-  // 공유해서 렌더링하므로, 여기서 한 번만 갱신해도 두 화면에 동시에
-  // 반영된다 (요청: "개별차단기 및 개별제어에도 +,- 버튼... 연동").
+  
   function addInverter() {
     const n = plant.inverters.length + 1;
     const newInv = {
@@ -2739,9 +2511,7 @@ function PowerPlantControlPage({ usage }) {
     return d.outputPct !== inv.outputPct || d.pfPct !== inv.pfPct || d.freqOffsetHz !== inv.freqOffsetHz;
   }
 
-  function computeResult(inv) {
-    // 제어 결과는 "적용된"(Store에 반영된) 값을 기준으로 산출한다 --
-    // 임시값(draft)만 바꾸고 적용을 누르지 않으면 결과에 반영되지 않는다.
+  function computeResult(inv) {    
     const entry = window.RemoteControlEngine.buildControlLogEntry({
       inverterId: inv.id, inverterName: inv.name, outputPct: inv.outputPct,
       pfPct: inv.pfPct, freqOffsetHz: inv.freqOffsetHz, ratedKw: inv.ratedKw,
@@ -2751,19 +2521,13 @@ function PowerPlantControlPage({ usage }) {
   }
 
   const resultInverter = resultFor;
-
-  // 표준 프로토콜(js/inverter-fault-protocol.js)의 controlHint가 "차단기
-  // OFF"류 대응을 가리키는 경우, 그 자리에서 바로 해당 인버터의 개별
-  // 차단기를 끄는 확인창을 띄운다 -- 표를 읽는 데서 그치지 않고 실제
-  // 원격 제어 액션으로 이어지도록 하기 위함.
+  
   function applyFaultControlHint(fault) {
     if (fault.controlHint.includes("차단기 OFF")) {
       requestBreakerSwitch(fault.inverterId, false);
     }
   }
-
-  // "증상에 의한 조치기록" -- 세트포인트 기준의 controlLogs와 달리,
-  // 표준화된 고장 이벤트 + 실제로 취한 조치를 사람이 남기는 이력.
+  
   function logFaultAction(fault) {
     const note = window.prompt(
       "[" + fault.vendor + " " + fault.rawCode + " / " + fault.standardCode + "] " + fault.label + " - 조치 내용을 입력하세요 (선택, 비워두면 표준 조치가 기록됩니다):",
@@ -3035,10 +2799,7 @@ function PowerPlantControlPage({ usage }) {
         .pp-io-btn { width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; background: var(--panel-raised); border: 1px solid var(--hairline); color: var(--text-muted); font-size: 16px; line-height: 1; border-radius: var(--radius); cursor: pointer; }
         .pp-io-btn:hover:not(:disabled) { color: var(--phosphor); border-color: var(--phosphor); }
         .pp-io-btn:disabled { opacity: 0.35; cursor: not-allowed; }
-        .pp-indiv-breaker-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 8px; }
-        /* 인버터 개별 제어 -- 한 줄에 6개 항목을 욱여넣던 표 대신, 카드
-           단위로 나눠 필드를 세로로 쌓는다. 화면이 넓으면 2열 이상으로
-           자동으로 늘어나고, 좁으면 1열로 접힌다 (요청 5번). */
+        .pp-indiv-breaker-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 8px; }        
         .pp-inv-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; }
         .pp-inv-card { display: flex; flex-direction: column; gap: 10px; padding: 14px; border: 1px solid var(--hairline); border-radius: var(--radius); background: var(--panel-raised); }
         .pp-inv-card.dirty { background: color-mix(in srgb, var(--amber) 8%, transparent); border-color: var(--amber); }
@@ -3064,9 +2825,7 @@ function PowerPlantControlPage({ usage }) {
         .pp-modal { background: var(--panel); padding: 24px; border-radius: var(--radius); min-width: 280px; }
         .pp-modal-apply { padding: 8px 16px; background: var(--phosphor); color: #fff; border: none; border-radius: var(--radius); cursor: pointer; font-weight: 700; }
         .pp-modal-cancel { padding: 8px 16px; background: var(--hairline); color: var(--text); border: none; border-radius: var(--radius); cursor: pointer; }
-
-        /* 좁은 화면: 결과/로그 표는 칸을 찌그러뜨리는 대신 옆으로
-           스크롤해서 보게 함 (모달은 화면 폭에 맞춰 축소). */
+       
         @media (max-width: 700px) {
           .pp-result-table, .pp-log-list { overflow-x: auto; -webkit-overflow-scrolling: touch; }
           .pp-result-row { min-width: 420px; }
@@ -3309,27 +3068,7 @@ function TopologyPage() {
   );
 }
 
-/* =========================================================================
-   5e-2) 계통연계 보호협조 정정값 + 시험 체크리스트
-   -- 한전 「분산형전원 배전계통 연계 기술기준」(H0-배전-기준-0015, 첨부파일
-   PDF)의 제10~18조 내용을 별도 메뉴로 만들지 않고, 실제로 장비를 설정하는
-   화면인 하드웨어 추상화 설정(DriverPage, /control/driver) 안에 내장한다.
-   여기서 편집한 정정값(Store.relaySetpoints)은 GridProtectionPanel(태양광/
-   ESS 모니터링 화면)의 실시간 판정에 그대로 사용되므로, 이 화면에서 값을
-   바꾸면 모니터링 화면의 정상/이상 판정 기준도 즉시 바뀐다 -- 참고용 표가
-   아니라 실제 시스템 로직의 입력값이다.
-   ========================================================================= */
-/* =========================================================================
-   5e-2) 보호협조 정정값 + 실시간 현장 상황판
-   -- 기준(한전 기술기준)은 이미 js/protection-standards.js 안의 판정
-   로직에 녹아 있으므로, 화면에는 조문 번호나 표 인용을 노출하지 않는다.
-   대신 그 기준으로 "지금 이 순간" 각 장치가 정상인지 이상인지를 실제
-   숫자 데이터로 보여주는 상황판을 그린다 -- 현장에 나가지 않고도 데이터
-   값만으로 상태를 판단할 수 있어야 한다는 요구사항을 위한 화면이다.
-   ========================================================================= */
-function computeDeviceLiveReading(device, tick) {
-  // 장치 id를 시드로 사용해 장치마다 서로 다른(그러나 매 렌더마다 일관된)
-  // 실측값처럼 보이는 패턴을 만든다.
+function computeDeviceLiveReading(device, tick) {  
   const seed = device.id.split("").reduce((a, c) => a + c.charCodeAt(0), 0);
   const excursionTick = (tick + seed) % 90;
   const voltagePct = excursionTick === 40 ? 121 : excursionTick === 65 ? 69 : driftValue(100, tick + seed, 2.2);
@@ -3918,13 +3657,7 @@ function ContainerGridPanel({ containers, onSelect, onReconfigure, onAddContaine
   );
 }
 
-function DigitalTwinPage({ usage }) {
-  // 상계용(NET_METERING): 기존의 단순한 Pack -> Cell 플로우 그대로
-  // (용량/컨테이너 단계 자체를 건너뜀). 그 외 모드(ESS전용 등)는
-  // 용량 설정 -> 컨테이너 선택 -> Pack -> Cell 3단계 마법사를 씁니다.
-  // 두 플로우 모두 내부적으로는 같은 컨테이너 데이터 모델을 쓰는데,
-  // 상계용은 그냥 첫 번째 컨테이너를 자동으로 골라서 그 안의 Pack/Cell로
-  // 곧장 들어갈 뿐, 컨테이너 개념 자체를 화면에 노출하지 않습니다.
+function DigitalTwinPage({ usage }) {  
   const isSimpleFlow = usage === "NET_METERING";
   const [step, setStep] = useState(isSimpleFlow ? "twin" : "container");
   const [containers, setContainers] = useState(() => Store.getContainers());
@@ -4177,10 +3910,7 @@ function App() {
     critical: alarms.filter((a) => a.severity === "CRITICAL" && a.status === "OPEN").length,
     fatal: alarms.filter((a) => a.severity === "FATAL" && a.status === "OPEN").length,
   };
-
-  // 태블릿/모바일 화면에서 좌측 메뉴(Sidebar)를 오버레이로 열고 닫기
-  // 위한 상태. PC/노트북 화면 폭에서는 이 상태와 무관하게 항상 보임
-  // (CSS 미디어쿼리로 제어).
+ 
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const inModeShell = /^\/mode\//.test(hash);
   useEffect(() => { setSidebarOpen(false); }, [hash]);
